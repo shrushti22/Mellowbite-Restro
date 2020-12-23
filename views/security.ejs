@@ -1,0 +1,22 @@
+<%- include('partial/header'); %>
+
+    <body>
+
+        <form action="/" method="POST">
+            <p>UserName</p><input type="email" name="username"><br>
+            <p>Password</p><input type="password" name="password">
+            <br>
+            <button type="submit" name="button" value="Login">Login</button><br>
+            <button type="submit" name="button" value="SignUp">SignUp</button>
+
+            <p>
+                <%= display %>
+            </p>
+
+
+        </form>
+
+    </body>
+
+
+    <%- include('partial/footer'); %>

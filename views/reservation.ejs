@@ -1,0 +1,17 @@
+<%- include('partial/header'); %>
+
+    <body>
+        <h1>Reservation</h1>
+
+        <form action="/reservation" method="POST">
+            <label>DineIn Date:</label>
+            <input type="date" id="dineInDate" name="date">
+            <br>
+            <label>Number Of People:</label>
+            <input type="number" id="people" name="no_of_people">
+            <br>
+            <button type="submit" name="button">Reserve Table</button>
+        </form>
+    </body>
+
+    <%- include('partial/footer'); %>
