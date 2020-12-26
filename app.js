@@ -80,6 +80,7 @@ app.get("/main", function(req, res) {
 
 app.get("/reservation", function(req, res) {
     if (req.isAuthenticated()) {
+        console.log(req.isAuthenticated);
         res.render("reservation");
     } else {
         res.redirect("/");
@@ -129,7 +130,10 @@ app.post("/", function(req, res) {
             } else {
                 passport.authenticate("local", function(err, user, info) {
                     console.log(info);
-                    if (info) { res.render("security", { display: "Incorrect username or password" }) } else(res.redirect("/main"));
+                    if (info) {
+                        req.session.destroy();
+                        res.render("security", { display: "Incorrect username or password" })
+                    } else(res.redirect("/main"));
                 })(req, res, function() {});
             };
         })
