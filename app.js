@@ -49,8 +49,8 @@ const reservationSchema = new mongoose.Schema({
 const userSchema = new mongoose.Schema({
     username: String,
     password: String,
-    salt: String,
-    hash: String
+    reservations: [reservationSchema],
+    orders: [orderSchema]
 })
 
 //adding plugin to userSchema
@@ -58,6 +58,7 @@ userSchema.plugin(passportLocalMongoose);
 
 //Create Collections
 const User = new mongoose.model('User', userSchema);
+const Reserve = new mongoose.model("Reserve", reservationSchema);
 
 //Creating Strategy for Authentication
 passport.use(User.createStrategy());
@@ -68,6 +69,7 @@ passport.deserializeUser(User.deserializeUser());
 
 //variables
 var display = "Your Favorite Dishes, only a step ahead";
+var conf_info = "";
 
 // GET Request
 app.get("/", function(req, res) {
@@ -78,9 +80,17 @@ app.get("/main", function(req, res) {
     res.render("main");
 });
 
+app.get("/profile", function(req, res) {
+    if (req.isAuthenticated()) {
+        var person = req.user;
+        res.render("profile", { name: person.username, reservations: person.reservations, orders: person.orders });
+    } else {
+        res.redirect("/");
+    }
+})
+
 app.get("/reservation", function(req, res) {
     if (req.isAuthenticated()) {
-        console.log(req.isAuthenticated);
         res.render("reservation");
     } else {
         res.redirect("/");
@@ -96,6 +106,20 @@ app.get("/menu", function(req, res) {
     }
 })
 
+app.get("/confirm", function(req, res) {
+    if (req.isAuthenticated()) {
+        if (conf_info) {
+            res.render("confirmation", { display: conf_info })
+            conf_info = "";
+        } else {
+            res.redirect("/main")
+        };
+    } else {
+        res.redirect("/");
+    }
+
+})
+
 app.get("/logout", function() {
     req.logout();
     res.redirect("/");
@@ -109,7 +133,8 @@ app.post("/", function(req, res) {
 
         User.register({ username: req.body.username }, req.body.password, function(err, user) {
             if (err) {
-                res.redirect("/");
+                console.log(err);
+                res.render("security", { display: "User Already Exist" })
             } else {
                 passport.authenticate("local")(req, res, function() {
                     res.redirect("/main");
@@ -155,14 +180,20 @@ app.post("/reservation", function(req, res) {
     var date = req.body.date;
     var people = req.body.no_of_people;
 
-    user.findOne({ username: userName }, function(err, person) {
-        if (err) { console.log(err); } else {
-            console.log(person);
-            if (person.password == pass) { res.redirect("/main"); } else {
-                res.render("security", { display: "Incorrect Password" })
-            }
-        }
+    const reservation = new Reserve({
+        date: date,
+        people: people
     })
+
+    conf_info = "Your Reservation was successfully done";
+
+    console.log(req.user.username);
+    User.findOne({ username: req.user.username }, function(err, founduser) {
+        founduser.reservations.push(reservation);
+        founduser.save();
+    });
+
+    res.redirect("/confirm");
 
 })
 
