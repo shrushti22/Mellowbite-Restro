@@ -4,7 +4,81 @@
 
         <h1>Menu</h1>
 
+        <div class="row">
+            <div class="col-lg-4">1</div>
+            <div class="col-lg-4">
 
+                <%category.forEach(function(category){%>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h3>
+                                <%=category%>
+                            </h3>
+                        </div>
+                        <%menu.forEach(function(item){%>
+                            <%if(item.itemCategory == category){%>
+                                <div class="col-lg-12">
+                                    <%= item.itemName%>
+                                        <%= item.itemPrice%>
+                                            <form action="/menu" method="post">
+                                                <button class="add" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this)">click</button>
+                                            </form>
+                                </div>
+
+                                <%};})%>
+                    </div>
+                    <br>
+                    <%})%>
+
+
+            </div>
+            <div class="col-lg-4">
+                <h1>CART</h1>
+                <div class="row" id="cartitems">
+
+                </div>
+            </div>
+        </div>
     </body>
+    <script type="text/javascript">
+        var cart = '<%- JSON.stringify(cart) %>';
+        cart = JSON.parse(cart);
 
+        output = "";
+
+        displayCart(output, cart);
+
+        function displayCart(output, cart) {
+            for (var i = 0; i < cart.length; i++) {
+                output += '<div class="col-lg-12">' + cart[i].itemName + '</div>';
+            }
+
+            document.getElementById("cartitems").innerHTML = output;
+        }
+
+        function addToCart(event, item) {
+            item = JSON.parse(item.value);
+            event.preventDefault();
+
+            cart.push(item);
+            displayCart(output, cart);
+
+            $.ajax({
+                async: false,
+                global: false,
+                type: 'POST',
+                url: '/menu',
+                dataType: 'json',
+                data: {
+                    mycart: cart
+                },
+                success: function(result) {
+                    console.log(result);
+                },
+                error: function(request, status, error) {
+
+                }
+            });
+        };
+    </script>
     <%- include('partial/footer'); %>

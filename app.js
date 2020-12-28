@@ -32,13 +32,18 @@ app.use(passport.session());
 //Creating Schema
 const menuSchema = new mongoose.Schema({
     itemName: String,
+    itemPrice: Number,
     itemCategory: String,
+})
+
+const cartSchema = new mongoose.Schema({
+    itemName: String,
+    itemQuantity: Number,
     itemPrice: Number,
 })
 
 const orderSchema = new mongoose.Schema({
-    itemName: String,
-    itemPrice: Number,
+    orderItems: [cartSchema],
 })
 
 const reservationSchema = new mongoose.Schema({
@@ -50,7 +55,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     reservations: [reservationSchema],
-    orders: [orderSchema]
+    orders: [orderSchema],
+    cart: [cartSchema]
 })
 
 //adding plugin to userSchema
@@ -58,7 +64,27 @@ userSchema.plugin(passportLocalMongoose);
 
 //Create Collections
 const User = new mongoose.model('User', userSchema);
+const Menu = new mongoose.model("Menu", menuSchema);
+const Cart = new mongoose.model("Cart", cartSchema);
 const Reserve = new mongoose.model("Reserve", reservationSchema);
+
+
+/*
+const item1 = new Menu({
+    itemName: "Burger",
+    itemPrice: 80,
+    itemCategory: "Fastfood"
+})
+const item2 = new Menu({
+    itemName: "Pizza",
+    itemPrice: 200,
+    itemCategory: "Fastfood",
+})
+
+
+item1.save();
+item2.save();
+*/
 
 //Creating Strategy for Authentication
 passport.use(User.createStrategy());
@@ -70,6 +96,7 @@ passport.deserializeUser(User.deserializeUser());
 //variables
 var display = "Your Favorite Dishes, only a step ahead";
 var conf_info = "";
+var categories = ["Fastfood", "Soups", "beverages"];
 
 // GET Request
 app.get("/", function(req, res) {
@@ -100,10 +127,15 @@ app.get("/reservation", function(req, res) {
 
 app.get("/menu", function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("menu");
+        Menu.find({}, function(err, menu) {
+
+            res.render("menu", { menu: menu, category: categories, cart: req.user.cart });
+        });
     } else {
         res.redirect("/");
     }
+
+
 })
 
 app.get("/confirm", function(req, res) {
@@ -154,7 +186,6 @@ app.post("/", function(req, res) {
                 res.redirect("/");
             } else {
                 passport.authenticate("local", function(err, user, info) {
-                    console.log(info);
                     if (info) {
                         req.session.destroy();
                         res.render("security", { display: "Incorrect username or password" })
@@ -176,6 +207,12 @@ app.post("/main", function(req, res) {
     }
 })
 
+app.post("/menu", function(req, res) {
+    req.user.cart = req.body.mycart;
+    req.user.save();
+    res.redirect("/menu");
+})
+
 app.post("/reservation", function(req, res) {
     var date = req.body.date;
     var people = req.body.no_of_people;
@@ -187,13 +224,15 @@ app.post("/reservation", function(req, res) {
 
     conf_info = "Your Reservation was successfully done";
 
-    console.log(req.user.username);
     User.findOne({ username: req.user.username }, function(err, founduser) {
         founduser.reservations.push(reservation);
-        founduser.save();
+        founduser.save(function() {
+            res.redirect("/confirm");
+        });
+
     });
 
-    res.redirect("/confirm");
+
 
 })
 
