@@ -1,0 +1,27 @@
+<%- include('partial/header'); %>
+
+    <body>
+
+        <h1>Your Order Preview</h1>
+
+        <div class="row">
+            <%cart.forEach(function(item){%>
+                <div class="col-md-4">
+                    <%=item.itemName%>
+                </div>
+                <div class="col-md-4">
+                    <%=item.itemQuantity%>
+                </div>
+                <div class="col-md-4">
+                    <%=item.itemTotal%>
+                </div>
+                <%})%>
+        </div>
+
+        <form action="/checkout" method="POST">
+            <button type="submit" name="button"><h4>Place Order</h4></button>
+        </form>
+
+    </body>
+
+    <%- include('partial/footer'); %>

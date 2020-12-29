@@ -29,15 +29,21 @@
 
                                 <%};})%>
                     </div>
-                    <br>
+
+
                     <%})%>
 
 
             </div>
             <div class="col-lg-4">
-                <h1>CART</h1>
+                <div id="cartTitle">
+                    <h1>CART</h1>
+                </div>
                 <div class="row" id="cartitems">
-
+                </div>
+                <div id="cartTotal"></div>
+                <div id="placeOrder">
+                    <form action="/checkout" method="GET"><button type="submit" name="button"><h4>Checkout</h4></button></form>
                 </div>
             </div>
         </div>
@@ -49,11 +55,12 @@
         var cart = '<%- JSON.stringify(cart) %>';
         cart = JSON.parse(cart);
 
-        output = "";
+        var output = "";
 
         displayCart(output, cart);
 
         function displayCart(output, cart) {
+            var cartTotal = 0;
             for (var i = 0; i < cart.length; i++) {
                 var name = '<div class="col-lg-4">' + cart[i].itemName + '</div>';
                 var quantity = '<div class="col-lg-4">' + cart[i].itemQuantity + '</div>';
@@ -68,12 +75,15 @@
                 add.style.display = "none";
                 plus.style.display = "";
                 minus.style.display = "";
+
+                cartTotal += cart[i].itemTotal;
             }
 
             document.getElementById("cartitems").innerHTML = output;
-
-
+            document.getElementById("cartTotal").innerHTML = '<h3>' + cartTotal + '</h3>';
         }
+
+        console.log(output);
 
         function addToCart(event, item, x) {
 

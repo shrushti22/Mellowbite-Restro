@@ -57,7 +57,8 @@ const userSchema = new mongoose.Schema({
     password: String,
     reservations: [reservationSchema],
     orders: [orderSchema],
-    cart: [cartSchema]
+    cart: [cartSchema],
+    cartTotal: Number,
 })
 
 //adding plugin to userSchema
@@ -68,6 +69,7 @@ const User = new mongoose.model('User', userSchema);
 const Menu = new mongoose.model("Menu", menuSchema);
 const Cart = new mongoose.model("Cart", cartSchema);
 const Reserve = new mongoose.model("Reserve", reservationSchema);
+const Order = new mongoose.model("Order", orderSchema);
 
 
 /*
@@ -130,7 +132,11 @@ app.get("/menu", function(req, res) {
     if (req.isAuthenticated()) {
         Menu.find({}, function(err, menu) {
 
-            res.render("menu", { menu: menu, category: categories, cart: req.user.cart });
+            res.render("menu", {
+                menu: menu,
+                category: categories,
+                cart: req.user.cart,
+            });
         });
     } else {
         res.redirect("/");
@@ -139,10 +145,18 @@ app.get("/menu", function(req, res) {
 
 })
 
-app.get("/confirm", function(req, res) {
+app.get("/checkout", function(req, res) {
+    if (req.isAuthenticated()) {
+        res.render("checkout", { cart: req.user.cart })
+    } else {
+        res.redirect("/");
+    }
+})
+
+app.get("/confirmed", function(req, res) {
     if (req.isAuthenticated()) {
         if (conf_info) {
-            res.render("confirmation", { display: conf_info })
+            res.render("confirmed", { display: conf_info })
             conf_info = "";
         } else {
             res.redirect("/main")
@@ -214,6 +228,19 @@ app.post("/menu", function(req, res) {
     res.redirect("/menu");
 })
 
+app.post("/checkout", function(req, res) {
+    const order = new Order({
+        orderItems: req.user.cart
+    });
+
+    req.user.orders.push(order);
+    req.user.cart = [];
+    req.user.save();
+
+    conf_info = "order successfull";
+    res.redirect("/confirmed");
+})
+
 app.post("/reservation", function(req, res) {
     var date = req.body.date;
     var people = req.body.no_of_people;
@@ -223,12 +250,12 @@ app.post("/reservation", function(req, res) {
         people: people
     })
 
-    conf_info = "Your Reservation was successfully done";
+    conf_info = "Reservation successfull";
 
     User.findOne({ username: req.user.username }, function(err, founduser) {
         founduser.reservations.push(reservation);
         founduser.save(function() {
-            res.redirect("/confirm");
+            res.redirect("/confirmed");
         });
 
     });
