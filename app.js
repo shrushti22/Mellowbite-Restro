@@ -40,6 +40,7 @@ const cartSchema = new mongoose.Schema({
     itemName: String,
     itemQuantity: Number,
     itemPrice: Number,
+    itemTotal: Number,
 })
 
 const orderSchema = new mongoose.Schema({

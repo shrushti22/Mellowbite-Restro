@@ -17,11 +17,13 @@
                         </div>
                         <%menu.forEach(function(item){%>
                             <%if(item.itemCategory == category){%>
-                                <div class="col-lg-12">
+                                <div id=<%=item._id%> class="col-lg-12">
                                     <%= item.itemName%>
                                         <%= item.itemPrice%>
                                             <form action="/menu" method="post">
-                                                <button class="add" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this)">click</button>
+                                                <button class="add" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'add')">ADD</button>
+                                                <button class="minus" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'minus')" style="display:none">-</button>
+                                                <button class="plus" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'plus')" style="display:none">+</button>
                                             </form>
                                 </div>
 
@@ -40,6 +42,9 @@
             </div>
         </div>
     </body>
+
+
+
     <script type="text/javascript">
         var cart = '<%- JSON.stringify(cart) %>';
         cart = JSON.parse(cart);
@@ -50,21 +55,87 @@
 
         function displayCart(output, cart) {
             for (var i = 0; i < cart.length; i++) {
-                output += '<div class="col-lg-12">' + cart[i].itemName + '</div>';
+                var name = '<div class="col-lg-4">' + cart[i].itemName + '</div>';
+                var quantity = '<div class="col-lg-4">' + cart[i].itemQuantity + '</div>';
+                var totalprice = '<div class="col-lg-4">' + cart[i].itemTotal + '</div>';
+                output += name + quantity + totalprice;
+
+                var container = $("#" + cart[i]._id)[0];
+                var add = container.querySelectorAll(".add")[0];
+                var plus = container.querySelectorAll(".plus")[0];
+                var minus = container.querySelectorAll(".minus")[0];
+
+                add.style.display = "none";
+                plus.style.display = "";
+                minus.style.display = "";
             }
 
             document.getElementById("cartitems").innerHTML = output;
+
+
         }
 
-        function addToCart(event, item) {
+        function addToCart(event, item, x) {
+
             item = JSON.parse(item.value);
             event.preventDefault();
 
-            cart.push(item);
-            displayCart(output, cart);
+            if (x == 'add') {
+                item.itemQuantity = 1;
+                item.itemTotal = item.itemQuantity * item.itemPrice;
+                cart.push(item);
+                displayCart(output, cart);
+            }
+
+            if (x == 'plus') {
+                var q, i = 0;
+
+                while (i < cart.length) {
+                    if (cart[i]._id == item._id) {
+                        q = cart[i].itemQuantity;
+                        break;
+                    }
+                    i += 1;
+                }
+
+                item.itemQuantity = q + 1;
+                item.itemTotal = item.itemQuantity * item.itemPrice;
+                cart[i] = item;
+
+                displayCart(output, cart);
+            }
+
+            if (x == 'minus') {
+                var q, i = 0;
+
+                while (i < cart.length) {
+                    if (cart[i]._id == item._id) {
+                        q = cart[i].itemQuantity;
+                        break;
+                    }
+                    i += 1;
+                }
+
+                if (q == 1) {
+                    var container = $("#" + cart[i]._id)[0];
+                    var add = container.querySelectorAll(".add")[0];
+                    var plus = container.querySelectorAll(".plus")[0];
+                    var minus = container.querySelectorAll(".minus")[0];
+                    add.style.display = "";
+                    plus.style.display = "none";
+                    minus.style.display = "none";
+                    cart.splice(i, 1);
+
+                } else {
+                    item.itemQuantity = q - 1;
+                    item.itemTotal = item.itemQuantity * item.itemPrice;
+                    cart[i] = item;
+                }
+
+                displayCart(output, cart);
+            }
 
             $.ajax({
-                async: false,
                 global: false,
                 type: 'POST',
                 url: '/menu',
