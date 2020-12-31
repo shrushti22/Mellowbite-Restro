@@ -45,6 +45,7 @@ const cartSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
     orderItems: [cartSchema],
+    orderTotal: Number,
 })
 
 const reservationSchema = new mongoose.Schema({
@@ -102,12 +103,16 @@ var conf_info = "";
 var categories = ["Fastfood", "Soups", "beverages"];
 
 // GET Request
-app.get("/", function(req, res) {
+app.get("/security", function(req, res) {
     res.render("security", { display: display });
 })
 
-app.get("/main", function(req, res) {
-    res.render("main");
+app.get("/", function(req, res) {
+    if (req.isAuthenticated()) {
+        res.render("main", { message: true });
+    } else {
+        res.render("main", { message: false });
+    }
 });
 
 app.get("/profile", function(req, res) {
@@ -115,7 +120,7 @@ app.get("/profile", function(req, res) {
         var person = req.user;
         res.render("profile", { name: person.username, reservations: person.reservations, orders: person.orders });
     } else {
-        res.redirect("/");
+        res.redirect("/security");
     }
 })
 
@@ -123,7 +128,7 @@ app.get("/reservation", function(req, res) {
     if (req.isAuthenticated()) {
         res.render("reservation");
     } else {
-        res.redirect("/");
+        res.redirect("/security");
     }
 
 })
@@ -139,7 +144,7 @@ app.get("/menu", function(req, res) {
             });
         });
     } else {
-        res.redirect("/");
+        res.redirect("/security");
     }
 
 
@@ -147,9 +152,9 @@ app.get("/menu", function(req, res) {
 
 app.get("/checkout", function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("checkout", { cart: req.user.cart })
+        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal })
     } else {
-        res.redirect("/");
+        res.redirect("/security");
     }
 })
 
@@ -159,10 +164,10 @@ app.get("/confirmed", function(req, res) {
             res.render("confirmed", { display: conf_info })
             conf_info = "";
         } else {
-            res.redirect("/main")
+            res.redirect("/")
         };
     } else {
-        res.redirect("/");
+        res.redirect("/security");
     }
 
 })
@@ -173,7 +178,7 @@ app.get("/logout", function() {
 })
 
 //POST Request
-app.post("/", function(req, res) {
+app.post("/security", function(req, res) {
     var button = req.body.button;
 
     if (button == "SignUp") {
@@ -184,7 +189,7 @@ app.post("/", function(req, res) {
                 res.render("security", { display: "User Already Exist" })
             } else {
                 passport.authenticate("local")(req, res, function() {
-                    res.redirect("/main");
+                    res.redirect("/");
                 })
             }
         })
@@ -198,20 +203,20 @@ app.post("/", function(req, res) {
 
         req.login(person, function(err) {
             if (err) {
-                res.redirect("/");
+                res.redirect("/security");
             } else {
                 passport.authenticate("local", function(err, user, info) {
                     if (info) {
                         req.session.destroy();
                         res.render("security", { display: "Incorrect username or password" })
-                    } else(res.redirect("/main"));
+                    } else(res.redirect("/"));
                 })(req, res, function() {});
             };
         })
     }
 })
 
-app.post("/main", function(req, res) {
+app.post("/", function(req, res) {
     button = req.body.button;
     if (button == "DineIn") {
         res.redirect("/reservation");
@@ -224,17 +229,20 @@ app.post("/main", function(req, res) {
 
 app.post("/menu", function(req, res) {
     req.user.cart = req.body.mycart;
+    req.user.cartTotal = req.body.cartTotal;
     req.user.save();
     res.redirect("/menu");
 })
 
 app.post("/checkout", function(req, res) {
     const order = new Order({
-        orderItems: req.user.cart
+        orderItems: req.user.cart,
+        orderTotal: req.user.cartTotal,
     });
 
     req.user.orders.push(order);
     req.user.cart = [];
+    req.user.cartTotal = 0;
     req.user.save();
 
     conf_info = "order successfull";

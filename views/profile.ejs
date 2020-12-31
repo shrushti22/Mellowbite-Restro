@@ -1,20 +1,58 @@
 <%- include('partial/header'); %>
 
     <body>
-        <h2>
-            <%= name %>
-        </h2>
-        <button><a href="/main"><p> Main Page</p></a></button>
-        <br>
-        <h3>Reservations</h3>
-        <% reservations.forEach(function(reserve){ %>
-            <p>
-                Time =
-                <%= reserve.date%>
-                    People =
-                    <%= reserve.people%>
-            </p>
-            <%})%>
+        <div class="name">
+            <h2>
+                <%= name %>
+            </h2>
+        </div>
+        <div class="mainPage">
+            <button><a href="/"><p> Main Page</p></a></button>
+            <br></div>
+
+        <div class="reservation">
+            <h3>Reservations</h3>
+            <% reservations.forEach(function(reserve){ %>
+
+                <p>
+                    Time =
+                    <%= reserve.date%>
+                        People =
+                        <%= reserve.people%>
+                </p>
+                <%})%>
+        </div>
+
+        <div class="orders">
+            <h3>Orders</h3>
+            <% orders.forEach(function(order){ %>
+                <div class="orderId">
+                    ID :
+                    <%= order._id %>
+                </div>
+                <div class="row">
+                    <%order.orderItems.forEach(function(item){%>
+
+                        <div class="col-md-4">
+                            <%=item.itemName%>
+                        </div>
+                        <div class="col-md-4">
+                            <%=item.itemQuantity%>
+                        </div>
+                        <div class="col-md-4">
+                            <%=item.itemTotal%>
+                        </div>
+                        <%})%>
+                </div>
+                <div class="total">
+                    TOTAL :
+                    <%=order.orderTotal%>
+                </div><br>
+                <%})%>
+
+
+
+        </div>
 
     </body>
 

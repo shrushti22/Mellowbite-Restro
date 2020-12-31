@@ -5,12 +5,16 @@
         <h1>Welcome</h1>
 
         <div>
-            <form action="/main" method="POST">
+            <form action="/" method="POST">
                 <button type="submit" name="button" value="DineIn">DineIn</button>
                 <button type="submit" name="button" value="BeeHome">BeeHome</button>
             </form>
         </div>
 
     </body>
-
+    <script>
+        var message = '<%- JSON.stringify(message) %>';
+        message = JSON.parse(message)
+    </script>
+    <script type="text/javascript" src="/javascripts/main.js"></script>
     <%- include('partial/footer'); %>
