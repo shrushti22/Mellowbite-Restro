@@ -1,59 +1,195 @@
 <%- include('partial/header'); %>
 
-    <body>
-        <div class="name">
-            <h2>
-                <%= name %>
-            </h2>
-        </div>
-        <div class="mainPage">
-            <button><a href="/"><p> Main Page</p></a></button>
-            <br></div>
-
-        <div class="reservation">
-            <h3>Reservations</h3>
-            <% reservations.forEach(function(reserve){ %>
-
-                <p>
-                    Time =
-                    <%= reserve.date%>
-                        People =
-                        <%= reserve.people%>
-                </p>
-                <%})%>
-        </div>
-
-        <div class="orders">
-            <h3>Orders</h3>
-            <% orders.forEach(function(order){ %>
-                <div class="orderId">
-                    ID :
-                    <%= order._id %>
+<body >
+<section id="#profile">
+    <div class="container" style="margin: auto">
+        <div class="row cover">
+          <div class="col-12">
+            <div>
+              <img
+                class="profile"
+                src="/images/images2.jpg"
+                alt="profile image not found"
+              />
+            </div>
+            <div class="profileUser">
+              <p style="font-size: 1.5rem; margin-bottom: 0rem">Hello NewUser!</p>
+              <p style="font-size: 1rem; font-weight: 400"><%= name %></p>
+            </div>
+            <div class="editProfile">
+              <a class="btn btn-light btn-sm" style="padding: 0.3rem 1rem; margin-bottom: 0.3rem;" role="button" id="editProfile" data-toggle="modal" data-target="#editProfileModal"><i class="fas fa-edit fa-1x"></i> &nbsp; Edit Profile</a>
+              <a class="btn btn-light btn-sm" style="padding: 0.3rem 1rem;" role="button" id="logout" href="/logout">Logout</a>
+            </div>
+            <div class="modal fade bd-example-modal-lg" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Edit Profile</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form >
+                          <div class="form-group">
+                            <label for="name" class="col-form-label">Name : </label>
+                            <input type="text" class="form-control" id="name">
+                          </div>
+                      </form>
+                    </div>
+                    <div class="modal-footer">
+                      <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                      <a role="button" class="btn btn-light" id="edit" href="#">Save changes</a>
+                    </div>
+                  </div>
                 </div>
-                <div class="row">
-                    <%order.orderItems.forEach(function(item){%>
-
-                        <div class="col-md-4">
-                            <%=item.itemName%>
-                        </div>
-                        <div class="col-md-4">
-                            <%=item.itemQuantity%>
-                        </div>
-                        <div class="col-md-4">
-                            <%=item.itemTotal%>
-                        </div>
-                        <%})%>
-                </div>
-                <div class="total">
-                    TOTAL :
-                    <%=order.orderTotal%>
-                </div><br>
-                <%})%>
-
-
-
+              </div>
+          </div>
         </div>
+    </div>
+</section>
 
-    </body>
 
-    <%- include('partial/footer'); %>
+
+<section id="reservation">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="display: inline-block; width: fit-content; text-align: center;">
+                    <p class="title-sans-lettering">Reservations</p>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding: 1rem;">
+            <% if(reservations.length == 0){ %> 
+              <div class="jumbotron container" style="text-align: center;background-color: #f1f1f1;">
+                <p style="font-weight: 300;font-size: 3rem;opacity: 60%;">No Reservation Yet.</p>
+            </div>
+            <% }else{ %>
+
+                <% reservations.forEach(function(reserve){ %>
+
+                    <% var datestr = {weekday: "long",day: "numeric",month: "long"}; %>
+                    <% var date = reserve.date.toLocaleDateString("en-US", datestr); %>
+
+                    <% function formatDate(date) { %>
+                    <% var hours = date.getHours() %>
+                    <% var minutes = date.getMinutes() %>
+                    <% var ampm = hours >= 12 ? 'pm' : 'am' %>
+                    <% hours = hours % 12 %>
+                    <% hours = hours ? hours : 12 // the hour '0' should be '12' %>
+                    <% minutes = minutes < 10 ? '0'+minutes : minutes %>
+                    <% var strTime = hours + ':' + minutes + ' ' + ampm %>
+                    <% return strTime %>
+                    <% } %>
+
+                    <% var time = formatDate(reserve.date) %>
+                
+
+                    <div class="col-sm-4" style="padding: 1rem;">
+                        <div class="card" style="background-color: #f1f1f1;">
+                          <div class="card-body">
+                            <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem;"> <%= reserve.name.toUpperCase() %> </h5>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Date </p>
+                            <p class="card-text" style="font-weight: 400;color: black;margin-bottom: 0.5rem;"><%= date %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Time </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= time %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Number of People </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= reserve.people %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Phone Number </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= reserve.phoneNo %></p>
+                          </div>
+                        </div>
+                    </div>
+
+                <%})%>
+            <% } %> 
+        </div>        
+    </div>     
+</section>
+ 
+
+
+<section id="orders">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div style="display: inline-block; width: fit-content; text-align: center;">
+                    <p class="title-sans-lettering">Orders</p>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="padding: 1rem;">
+            <% if(orders.length == 0){ %> 
+                <div class="jumbotron container" style="text-align: center;background-color: #f1f1f1;">
+                    <p style="font-weight: 300;font-size: 3rem;opacity: 60%;">No Order Yet.</p>
+                </div>
+            <% }else{ %>
+
+                <% orders.forEach(function(order){ %>
+                
+
+                    <!-- <div class="col-sm-4" style="padding: 1rem;">
+                        <div class="card" style="background-color: #f8f1f1;">
+                          <div class="card-body">
+                            <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem;"> <%= reserve.name.toUpperCase() %> </h5>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Date </p>
+                            <p class="card-text" style="font-weight: 400;color: black;margin-bottom: 0.5rem;"><%= date %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Time </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= time %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Number of People </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= reserve.people %></p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;"> Phone Number </p>
+                            <p class="card-text" style="font-weight: 400;color: black;"><%= reserve.phoneNo %></p>
+                          </div>
+                        </div>
+                    </div> -->
+
+                <%})%>
+            <% } %> 
+        </div>        
+
+    </div>
+</section>
+
+  <div class="orders">
+    <% orders.forEach(function(order){ %>
+    <div class="orderId">ID : <%= order._id %></div>
+    <div class="row">
+      <%order.orderItems.forEach(function(item){%>
+
+      <div class="col-md-4"><%=item.itemName%></div>
+      <div class="col-md-4"><%=item.itemQuantity%></div>
+      <div class="col-md-4"><%=item.itemTotal%></div>
+      <%})%>
+    </div>
+    <div class="total">TOTAL : <%=order.orderTotal%></div>
+    <br />
+    <%})%>
+  </div>
+
+
+
+  <% var currentYear = new Date().getFullYear() %>
+
+  <section id="footer">
+    <div class="foot">
+      <p style="margin: 0;">
+        <i class="fab fa-facebook-f fa-2x" style="margin: 4rem 2rem 1rem 2rem">
+        </i>
+        <i class="fab fa-twitter fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
+        &nbsp;
+        <i
+          class="fab fa-instagram fa-2x"
+          style="margin: 4rem 2rem 1rem 2rem"
+        ></i>
+      </p>
+      <p style="margin: 0">255, &nbsp; 2nd floor, Safal Square, Vesu, Surat.</p>
+      <p style="margin: 0">98672 03657</p>
+      <p style="margin-bottom: 2rem">mellowbite.restro@gmail.com</p>
+      <p class="copy">Copyright © <%= currentYear %> Mellowbite</p>
+    </div>
+  </section>
+</body>
+
+<%- include('partial/footer'); %>

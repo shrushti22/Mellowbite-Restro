@@ -1,14 +1,26 @@
 var output = "";
 var cartTotal;
 
+
+// for navbar
+var p = $( "p.slogan" ).last();
+var offset = p.offset();
+var topvalue = offset.top;
+
+$(window).scroll(function(){
+    $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled',$(this).scrollTop() > topvalue);  
+})
+
+
+
 displayCart(output, cart);
 
 function displayCart(output, cart) {
     cartTotal = 0;
     for (var i = 0; i < cart.length; i++) {
-        var name = '<div class="col-lg-4">' + cart[i].itemName + '</div>';
-        var quantity = '<div class="col-lg-4">' + cart[i].itemQuantity + '</div>';
-        var totalprice = '<div class="col-lg-4">' + cart[i].itemTotal + '</div>';
+        var name = '<div class="col-4">' + cart[i].itemName + '</div>';
+        var quantity = '<div class="col-4">' + cart[i].itemQuantity + '</div>';
+        var totalprice = '<div class="col-4">' + cart[i].itemTotal + '</div>';
         output += name + quantity + totalprice;
 
         var container = $("#" + cart[i]._id)[0];
@@ -24,10 +36,10 @@ function displayCart(output, cart) {
     }
 
     document.getElementById("cartitems").innerHTML = output;
-    document.getElementById("cartTotal").innerHTML = '<h3>' + cartTotal + '</h3>';
+    document.getElementById("cartTotal").innerHTML = '<div class="col-8">Total</div><div class="col-4">' + cartTotal + '</div>';
 }
 
-console.log(output);
+
 
 function addToCart(event, item, x) {
 
@@ -35,6 +47,7 @@ function addToCart(event, item, x) {
     event.preventDefault();
 
     if (x == 'add') {
+        console.log(item);
         item.itemQuantity = 1;
         item.itemTotal = item.itemQuantity * item.itemPrice;
         cart.push(item);

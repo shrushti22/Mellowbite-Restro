@@ -49,6 +49,8 @@ const orderSchema = new mongoose.Schema({
 })
 
 const reservationSchema = new mongoose.Schema({
+    name: String,
+    phoneNo : Number,
     date: { type: Date },
     people: Number,
 })
@@ -73,22 +75,34 @@ const Reserve = new mongoose.model("Reserve", reservationSchema);
 const Order = new mongoose.model("Order", orderSchema);
 
 
-/*
+
 const item1 = new Menu({
     itemName: "Burger",
     itemPrice: 80,
     itemCategory: "Fastfood"
 })
 const item2 = new Menu({
-    itemName: "Pizza",
+    itemName: "Veg Pizza",
     itemPrice: 200,
-    itemCategory: "Fastfood",
+    itemCategory: "Pizza & Pastas",
+})
+const item3 = new Menu({
+    itemName: "White Sauce Pasta",
+    itemPrice: 120,
+    itemCategory: "Pizza & Pastas",
+})
+const item4 = new Menu({
+    itemName: "Red Sauce Pasta",
+    itemPrice: 120,
+    itemCategory: "Pizza & Pastas",
 })
 
 
 item1.save();
 item2.save();
-*/
+item3.save();
+item4.save();
+
 
 //Creating Strategy for Authentication
 passport.use(User.createStrategy());
@@ -98,13 +112,13 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //variables
-var display = "Your Favorite Dishes, only a step ahead";
+var display = " ";
 var conf_info = "";
-var categories = ["Fastfood", "Soups", "beverages"];
+var categories = ["Starters", "Chinese", "Fastfood", "Pizza & Pastas" , "Main Course", "Beverages"];
 
 // GET Request
 app.get("/security", function(req, res) {
-    res.render("security", { display: display });
+    res.render("security", { display: display , message: true});
 })
 
 app.get("/", function(req, res) {
@@ -186,7 +200,7 @@ app.post("/security", function(req, res) {
         User.register({ username: req.body.username }, req.body.password, function(err, user) {
             if (err) {
                 console.log(err);
-                res.render("security", { display: "User Already Exist" })
+                res.render("security", { display: "User Already Exist", message: false })
             } else {
                 passport.authenticate("local")(req, res, function() {
                     res.redirect("/");
@@ -208,7 +222,7 @@ app.post("/security", function(req, res) {
                 passport.authenticate("local", function(err, user, info) {
                     if (info) {
                         req.session.destroy();
-                        res.render("security", { display: "Incorrect username or password" })
+                        res.render("security", { display: "Incorrect username or password" , message: false})
                     } else(res.redirect("/"));
                 })(req, res, function() {});
             };
@@ -229,6 +243,7 @@ app.post("/", function(req, res) {
 
 app.post("/menu", function(req, res) {
     req.user.cart = req.body.mycart;
+    console.log(req.body.mycart);
     req.user.cartTotal = req.body.cartTotal;
     req.user.save();
     res.redirect("/menu");
@@ -250,11 +265,15 @@ app.post("/checkout", function(req, res) {
 })
 
 app.post("/reservation", function(req, res) {
+
     var date = req.body.date;
     var people = req.body.no_of_people;
 
+
     const reservation = new Reserve({
-        date: date,
+        name: req.body.name,
+        phoneNo: req.body.number,
+        date: date + "T" + req.body.time + "+05:30",
         people: people
     })
 
