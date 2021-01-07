@@ -2,58 +2,171 @@
 
     <body>
 
-        <h1>Menu</h1>
 
-        <div class="row">
-            <div class="col-lg-4">1</div>
-            <div class="col-lg-4">
+        <section id="navbar">
+            <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+              <div class="container">
+                <a class="navbar-brand" href="/"><strong>Mellowbite</strong></a>
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#navbarNav"
+                  aria-controls="navbarSupportedContent"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <i class="fa fa-bars fa-1x"></i>
+                </button>
+              </div>
+        
+              <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                  <li class="nav-item ">
+                    <a class="nav-link" href="/"
+                      >Home</a
+                    >
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">Menu <span class="sr-only">(current)</span></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/reservation">Dine in</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="btn btn-light" role="button" id="profile" href="/profile"
+                      ><i class="fas fa-user"></i> &nbsp Profile</a
+                    >
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </section>
 
-                <%category.forEach(function(category){%>
+          <section id="heading">
+            <div>
+              <img
+                src="/images/menu3.jpeg"
+                class="img-fluid bgimage"
+                alt="Responsive image"
+              />
+              <div class="container name">
+                <div class="row">
+                  <div class="col-12">
+                    <p class="restroName" >Menu</p>
+                  </div>
+                  <div class="col-12">
+                    <p class="slogan">Hello to Fresh Mellow!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        
+
+        <section id="menu">
+            <div class="menu-section">
+                <div class="container">
                     <div class="row">
-                        <div class="col-lg-12">
-                            <h3>
-                                <%=category%>
-                            </h3>
-                        </div>
-                        <%menu.forEach(function(item){%>
-                            <%if(item.itemCategory == category){%>
-                                <div id=<%=item._id%> class="col-lg-12">
-                                    <%= item.itemName%>
-                                        <%= item.itemPrice%>
-                                            <form action="/menu" method="post">
-                                                <button class="add" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'add')">ADD</button>
-                                                <button class="minus" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'minus')" style="display:none">-</button>
-                                                <button class="plus" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'plus')" style="display:none">+</button>
-                                            </form>
-                                </div>
+                        <div class="col-lg-8">
+                            <div id="accordion">
+                                <% var i = 0 %>
+                                <% category.forEach(function(category){ %>
+                                    <% i++ %> 
+                                    <div class="card menu">
+                                        <div class="card-header" id="<%= i.toString() %>" style="background-color: rgba(200, 169, 126,0.7);">
+                                            <h5 class="mb-0 category">
+                                                <% var id = i.toString() + "items" %> 
+                                                <% var dt = "#" + i.toString() + "items" %> 
+                                                <div role="button" style="width: 100%;">
+                                                    <%=category%>
+                                                </div>
+                                            </h5>
+                                        </div>
 
-                                <%};})%>
+                                        <div id="<%= id %>">
+                                            <div class="card-body">
+                                                <% menu.forEach(function(item){ %>
+                                                    <% if(item.itemCategory == category){ %>
+                                                        <div id=<%=item._id%> class="col-lg-12 item-box">
+                                                            <p style="margin-bottom: 0.5rem;font-size: 1.1rem; font-weight: 400;"><%= item.itemName%></p>
+                                                            <p style="font-size: 1rem;margin-bottom: 0.5rem;">₹ <%= item.itemPrice%></p>
+                                                            <form action="/menu" method="post">
+                                                                <button class="add btn btn-success add-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'add')">ADD</button>
+                                                                <button class="minus btn add-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'minus')" style="display:none"><strong>-</strong></button>
+                                                                <button class="plus btn btn-success addc-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'plus')" style="display:none;"><strong>+ </strong></button>
+                                                            </form>
+                                                        </div>
+                                                    <% } %>
+                                                <% }) %> 
+                                            </div>
+                                        </div>
+                                    </div>     
+                                <%})%>
+                            </div>         
+                        </div>             
+                                              
+                
+                        <div class="col-lg-4">
+                            <div id="cartTitle" style="margin-top: 2rem;">
+                                <h1 style="font-weight: 600;">CART</h1>
+                            </div>
+
+                            <div class="row" id="cartitems" style="font-weight: 400;font-size: 1rem; padding-left:1rem ;">
+                            </div>
+
+                            <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
+                            </div>
+
+                            <div id="placeOrder" style="padding: 1rem 0.1rem;">
+                                <form action="/checkout" method="GET">
+                                    <button type="submit" class="btn btn-success" style="width: 100%;" name="button">
+                                        <h4>Checkout</h4>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
 
-
-                    <%})%>
-
-
-            </div>
-            <div class="col-lg-4">
-                <div id="cartTitle">
-                    <h1>CART</h1>
-                </div>
-                <div class="row" id="cartitems">
-                </div>
-                <div id="cartTotal"></div>
-                <div id="placeOrder">
-                    <form action="/checkout" method="GET"><button type="submit" name="button"><h4>Checkout</h4></button></form>
                 </div>
             </div>
-        </div>
+        </section>
+
+
+        <% var currentYear = new Date().getFullYear() %>
+
+        <section id="footer">
+            <div class="foot">
+                <p style="margin: 0;">
+                    <i class="fab fa-facebook-f fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
+                    <i class="fab fa-twitter fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
+                    &nbsp;
+                    <i class="fab fa-instagram fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
+                </p>
+                <p style="margin: 0">255, &nbsp; 2nd floor, Safal Square, Vesu, Surat.</p>
+                <p style="margin: 0">98672 03657</p>
+                <p style="margin-bottom: 2rem">mellowbite.restro@gmail.com</p>
+                <p class="copy">Copyright © <%= currentYear %> Mellowbite</p>
+            </div>
+        </section>
+
+
+
+        <script type="text/javascript">
+            var cart = '<%- JSON.stringify(cart) %>';
+            cart = JSON.parse(cart);
+        </script>
+        <script type="text/javascript" src="/javascripts/menu.js"></script>
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        
     </body>
 
 
 
-    <script type="text/javascript">
-        var cart = '<%- JSON.stringify(cart) %>';
-        cart = JSON.parse(cart);
-    </script>
-    <script type="text/javascript" src="/javascripts/menu.js"></script>
+
     <%- include('partial/footer'); %>
+
+
+
+

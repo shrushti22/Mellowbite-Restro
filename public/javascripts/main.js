@@ -1,11 +1,21 @@
-console.log(message);
+
+
+var p = $( "p.slogan" ).last();
+var offset = p.offset();
+var topvalue = offset.top;
+
+$(window).scroll(function(){
+    $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled',$(this).scrollTop() > topvalue);  
+})
+
+
 
 if (message) {
     console.log("here");
-    $(".loginButton")[0].style.display = "none";
-    $(".profileButton")[0].style.display = "";
+    $("#signup")[0].style.display = "none";
+    $("#profile")[0].style.display = "";
 } else {
     console.log("no");
-    $(".loginButton")[0].style.display = "";
-    $(".profileButton")[0].style.display = "none";
+    $("#signup")[0].style.display = "";
+    $("#profile")[0].style.display = "none";
 }
