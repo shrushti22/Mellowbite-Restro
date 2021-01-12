@@ -3,12 +3,12 @@ var cartTotal;
 
 
 // for navbar
-var p = $( "p.slogan" ).last();
+var p = $("p.slogan").last();
 var offset = p.offset();
 var topvalue = offset.top;
 
-$(window).scroll(function(){
-    $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled',$(this).scrollTop() > topvalue);  
+$(window).scroll(function() {
+    $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled', $(this).scrollTop() > topvalue);
 })
 
 
@@ -47,7 +47,7 @@ function addToCart(event, item, x) {
     event.preventDefault();
 
     if (x == 'add') {
-        console.log(item);
+
         item.itemQuantity = 1;
         item.itemTotal = item.itemQuantity * item.itemPrice;
         cart.push(item);
@@ -101,7 +101,7 @@ function addToCart(event, item, x) {
 
         displayCart(output, cart);
     }
-    console.log(cartTotal);
+
     $.ajax({
         global: false,
         type: 'POST',
@@ -111,9 +111,7 @@ function addToCart(event, item, x) {
             mycart: cart,
             cartTotal: cartTotal,
         },
-        success: function(result) {
-            console.log(result);
-        },
+        success: function(result) {},
         error: function(request, status, error) {
 
         }

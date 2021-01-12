@@ -5,37 +5,27 @@
 
         <section id="navbar">
             <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-              <div class="container">
-                <a class="navbar-brand" href="/"><strong>Mellowbite</strong></a>
-                <button
-                  class="navbar-toggler"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target="#navbarNav"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
+                <div class="container">
+                    <a class="navbar-brand" href="/"><strong>Mellowbite</strong></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                   <i class="fa fa-bars fa-1x"></i>
                 </button>
-              </div>
-        
-              <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                  <li class="nav-item ">
-                    <a class="nav-link" href="/"
-                      >Home</a
+                </div>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item ">
+                            <a class="nav-link" href="/">Home</a
                     >
                   </li>
                   <li class="nav-item">
                     <a class="nav-link active" href="#">Menu <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/reservation">Dine in</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="btn btn-light" role="button" id="profile" href="/profile"
-                      ><i class="fas fa-user"></i> &nbsp Profile</a
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/reservation">Dine in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-light" role="button" id="profile" href="/profile"><i class="fas fa-user"></i> &nbsp Profile</a
                     >
                   </li>
                 </ul>
@@ -92,9 +82,9 @@
                                                             <p style="margin-bottom: 0.5rem;font-size: 1.1rem; font-weight: 400;"><%= item.itemName%></p>
                                                             <p style="font-size: 1rem;margin-bottom: 0.5rem;">₹ <%= item.itemPrice%></p>
                                                             <form action="/menu" method="post">
-                                                                <button class="add btn btn-success add-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'add')">ADD</button>
-                                                                <button class="minus btn add-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'minus')" style="display:none"><strong>-</strong></button>
-                                                                <button class="plus btn btn-success addc-btn" type="submit" value=<%=JSON.stringify(item)%> onclick="addToCart(event,this,'plus')" style="display:none;"><strong>+ </strong></button>
+                                                                <button class="add btn btn-success add-btn" type="submit" value='<%=JSON.stringify(item)%>' onclick="addToCart(event,this,'add')">ADD</button>
+                                                                <button class="minus btn add-btn" type="submit" value='<%=JSON.stringify(item)%>' onclick="addToCart(event,this,'minus')" style="display:none"><strong>-</strong></button>
+                                                                <button class="plus btn btn-success addc-btn" type="submit" value='<%=JSON.stringify(item)%>' onclick="addToCart(event,this,'plus')" style="display:none;"><strong>+ </strong></button>
                                                             </form>
                                                         </div>
                                                     <% } %>
@@ -166,7 +156,3 @@
 
 
     <%- include('partial/footer'); %>
-
-
-
-

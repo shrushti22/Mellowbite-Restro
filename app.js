@@ -50,7 +50,7 @@ const orderSchema = new mongoose.Schema({
 
 const reservationSchema = new mongoose.Schema({
     name: String,
-    phoneNo : Number,
+    phoneNo: Number,
     date: { type: Date },
     people: Number,
 })
@@ -76,32 +76,14 @@ const Order = new mongoose.model("Order", orderSchema);
 
 
 
-const item1 = new Menu({
+/*const item1 = new Menu({
     itemName: "Burger",
     itemPrice: 80,
     itemCategory: "Fastfood"
 })
-const item2 = new Menu({
-    itemName: "Veg Pizza",
-    itemPrice: 200,
-    itemCategory: "Pizza & Pastas",
-})
-const item3 = new Menu({
-    itemName: "White Sauce Pasta",
-    itemPrice: 120,
-    itemCategory: "Pizza & Pastas",
-})
-const item4 = new Menu({
-    itemName: "Red Sauce Pasta",
-    itemPrice: 120,
-    itemCategory: "Pizza & Pastas",
-})
-
 
 item1.save();
-item2.save();
-item3.save();
-item4.save();
+*/
 
 
 //Creating Strategy for Authentication
@@ -114,11 +96,11 @@ passport.deserializeUser(User.deserializeUser());
 //variables
 var display = " ";
 var conf_info = "";
-var categories = ["Starters", "Chinese", "Fastfood", "Pizza & Pastas" , "Main Course", "Beverages"];
+var categories = ["Starters", "Chinese"];
 
 // GET Request
 app.get("/security", function(req, res) {
-    res.render("security", { display: display , message: true});
+    res.render("security", { display: display, message: true });
 })
 
 app.get("/", function(req, res) {
@@ -150,6 +132,10 @@ app.get("/reservation", function(req, res) {
 app.get("/menu", function(req, res) {
     if (req.isAuthenticated()) {
         Menu.find({}, function(err, menu) {
+            if (err) {
+                console.log(err);
+                res.redirect("/menu");
+            }
 
             res.render("menu", {
                 menu: menu,
@@ -217,12 +203,13 @@ app.post("/security", function(req, res) {
 
         req.login(person, function(err) {
             if (err) {
+                console.log(err);
                 res.redirect("/security");
             } else {
                 passport.authenticate("local", function(err, user, info) {
                     if (info) {
                         req.session.destroy();
-                        res.render("security", { display: "Incorrect username or password" , message: false})
+                        res.render("security", { display: "Incorrect username or password", message: false })
                     } else(res.redirect("/"));
                 })(req, res, function() {});
             };
@@ -243,7 +230,6 @@ app.post("/", function(req, res) {
 
 app.post("/menu", function(req, res) {
     req.user.cart = req.body.mycart;
-    console.log(req.body.mycart);
     req.user.cartTotal = req.body.cartTotal;
     req.user.save();
     res.redirect("/menu");
@@ -258,10 +244,19 @@ app.post("/checkout", function(req, res) {
     req.user.orders.push(order);
     req.user.cart = [];
     req.user.cartTotal = 0;
-    req.user.save();
-
     conf_info = "order successfull";
-    res.redirect("/confirmed");
+
+
+    req.user.save(function(err) {
+        if (err) {
+            console.log(err);
+            conf_info = "order NOT successfull";
+        }
+        res.redirect("/confirmed");
+    });
+
+
+
 })
 
 app.post("/reservation", function(req, res) {
@@ -280,11 +275,18 @@ app.post("/reservation", function(req, res) {
     conf_info = "Reservation successfull";
 
     User.findOne({ username: req.user.username }, function(err, founduser) {
-        founduser.reservations.push(reservation);
-        founduser.save(function() {
-            res.redirect("/confirmed");
-        });
-
+        if (err) {
+            console.log(err);
+            res.redirect("/reservation");
+        } else {
+            founduser.reservations.push(reservation);
+            founduser.save(function(err) {
+                if (err) {
+                    conf_info = "Reservation NOT successfull";
+                }
+                res.redirect("/confirmed");
+            });
+        }
     });
 
 
