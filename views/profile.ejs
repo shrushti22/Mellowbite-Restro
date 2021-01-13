@@ -9,9 +9,11 @@
                             <img class="profile" src="/images/images2.jpg" alt="profile image not found" />
                         </div>
                         <div class="profileUser">
-                            <p style="font-size: 1.5rem; margin-bottom: 0rem">Hello NewUser!</p>
+                            <p style="font-size: 1.5rem; margin-bottom: 0rem">Hello
+                                <%=name%>
+                            </p>
                             <p style="font-size: 1rem; font-weight: 400">
-                                <%= name %>
+                                <%= username %>
                             </p>
                         </div>
                         <div class="editProfile">
@@ -27,18 +29,19 @@
                         <span aria-hidden="true">&times;</span>
                       </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <form>
+                                    <form id="editprofile">
+                                        <div class="modal-body">
                                             <div class="form-group">
                                                 <label for="name" class="col-form-label">Name : </label>
-                                                <input type="text" class="form-control" id="name">
+                                                <input type="text" class="form-control" name="name" id="newname">
                                             </div>
-                                        </form>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                        <a role="button" class="btn btn-light" id="edit" href="#">Save changes</a>
-                                    </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                            <button role="button" type="button" name="button" class="btn btn-light" id="edit" onclick="change(event)">Save changes</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -188,4 +191,6 @@
             </section>
     </body>
 
+    <script type="text/javascript" src="javascripts/profile.js">
+    </script>
     <%- include('partial/footer'); %>

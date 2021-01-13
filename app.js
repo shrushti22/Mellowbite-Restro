@@ -56,6 +56,7 @@ const reservationSchema = new mongoose.Schema({
 })
 
 const userSchema = new mongoose.Schema({
+    name: String,
     username: String,
     password: String,
     reservations: [reservationSchema],
@@ -114,7 +115,7 @@ app.get("/", function(req, res) {
 app.get("/profile", function(req, res) {
     if (req.isAuthenticated()) {
         var person = req.user;
-        res.render("profile", { name: person.username, reservations: person.reservations, orders: person.orders });
+        res.render("profile", { name: person.name, username: person.username, reservations: person.reservations, orders: person.orders });
     } else {
         res.redirect("/security");
     }
@@ -172,7 +173,7 @@ app.get("/confirmed", function(req, res) {
 
 })
 
-app.get("/logout", function() {
+app.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/");
 })
@@ -183,7 +184,7 @@ app.post("/security", function(req, res) {
 
     if (button == "SignUp") {
 
-        User.register({ username: req.body.username }, req.body.password, function(err, user) {
+        User.register({ username: req.body.username, name: "New User!" }, req.body.password, function(err, user) {
             if (err) {
                 console.log(err);
                 res.render("security", { display: "User Already Exist", message: false })
@@ -226,6 +227,14 @@ app.post("/", function(req, res) {
     if (button == "BeeHome") {
         res.redirect("/menu");
     }
+})
+
+app.post("/profile", function(req, res) {
+    var name = req.body.name;
+    req.user.name = _.capitalize(name);
+    req.user.save(function() {
+        res.redirect("/profile");
+    });
 })
 
 app.post("/menu", function(req, res) {
@@ -282,6 +291,7 @@ app.post("/reservation", function(req, res) {
             founduser.reservations.push(reservation);
             founduser.save(function(err) {
                 if (err) {
+                    console.log(err);
                     conf_info = "Reservation NOT successfull";
                 }
                 res.redirect("/confirmed");
