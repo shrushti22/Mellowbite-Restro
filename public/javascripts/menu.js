@@ -18,9 +18,9 @@ displayCart(output, cart);
 function displayCart(output, cart) {
     cartTotal = 0;
     for (var i = 0; i < cart.length; i++) {
-        var name = '<div class="col-4">' + cart[i].itemName + '</div>';
-        var quantity = '<div class="col-4">' + cart[i].itemQuantity + '</div>';
-        var totalprice = '<div class="col-4">' + cart[i].itemTotal + '</div>';
+        var name = '<div class="col-6">' + cart[i].itemName + '</div>';
+        var quantity = '<div class="col-3">' + cart[i].itemQuantity + '</div>';
+        var totalprice = '<div class="col-3">' + cart[i].itemTotal + '</div>';
         output += name + quantity + totalprice;
 
         var container = $("#" + cart[i]._id)[0];
@@ -33,6 +33,18 @@ function displayCart(output, cart) {
         minus.style.display = "";
 
         cartTotal += cart[i].itemTotal;
+    }
+    if(cart.length==0){
+        document.getElementById("emptycart").style.display ="";
+        document.getElementById("cartitems").style.display= "none";
+        document.getElementById("disabledbutton").style.display="";
+        document.getElementById("checkoutbutton").style.display="none";
+    }
+    else{
+        document.getElementById("emptycart").style.display ="none";
+        document.getElementById("cartitems").style.display= "";
+        document.getElementById("disabledbutton").style.display="none";
+        document.getElementById("checkoutbutton").style.display="";
     }
 
     document.getElementById("cartitems").innerHTML = output;

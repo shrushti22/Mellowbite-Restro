@@ -1,32 +1,109 @@
 <%- include('partial/header'); %>
 
-    <body>
-
-        <h1>Your Order Preview</h1>
-
-        <div class="row">
-            <%cart.forEach(function(item){%>
-                <div class="col-md-4">
-                    <%=item.itemName%>
+    <body class="text-center">
+        
+            
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Status</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <% if(message=="true"){ %> 
+                        <% var direct = "/profile" %> 
+                        <p style="font-size: 1rem;font-weight: 400;">Your Order is Confirmed.</p>
+                      <% }else if(message=="false"){ %> 
+                        <% var direct = "/checkout" %> 
+                        <p style="font-weight: 400;font-size: 1rem;color: red;">Your Order is not Confirmed.</p>
+                        <p style="font-size: 400;font-weight: 1rem;"> Please try again later. </p> 
+                      <% } %> 
+                    </div>
+                    <div class="modal-footer">
+                      
+                      <a role="button" class="btn btn-secondary" href="/profile">Close</a>
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                    <%=item.itemQuantity%>
+              </div>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div  style="
+                    display: inline-block;
+                    width: fit-content;
+                    text-align: center;
+                    padding-top: 10%;
+                    padding-right: 4%;
+                    padding-bottom: 5%;
+                  ">
+                  <p class="cursive-lettering">Your</p>
+                  <p class="title-sans-lettering">Order Preview</p>
+                  </div>
                 </div>
-                <div class="col-md-4">
-                    <%=item.itemTotal%>
+            </div>
+            <div class="row cartitems" style="width: fit-content;margin: auto;font-size: 1rem;font-weight: 400;">
+                <div class="col-4" style="font-weight: 600;">
+                    <p>Item Name</p>
                 </div>
-                <%})%>
+                <div class="col-4" style="font-weight: 600;">
+                    <p>Quantity</p>
+                </div>
+                <div class="col-4" style="font-weight: 600;">
+                    <p>Price</p>
+                </div>
+                    <%cart.forEach(function(item){%>
+                        <div class="col-4">
+                            <p><%=item.itemName%></p>
+                        </div>
+                        <div class="col-4">
+                            <p><%=item.itemQuantity%></p>
+                        </div>
+                        <div class="col-4">
+                            <p><%=item.itemTotal%></p>
+                        </div>
+                        <%})%>
+                        <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
+                            <p>Total</p>
+                        </div>
+                        <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
+                            
+                        </div>
+                        <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
+                            <p><%= total%></p>
+                        </div>
+            </div>
+            <div class="row">
+                <div class="col-12" style="padding: 2rem 1rem;">
+                    <form action="/checkout" method="POST">
+                        <button type="submit" id="placeOrder" style="padding: 0.5rem 15%; font-size: 1.7rem;" class="btn btn-success" name="button">
+                            Place Order
+                        </button>
+                    </form>
+                </div>
+                
+            </div>
         </div>
-        <div clas="total">
-            <h3>
-                <%= total%>
-            </h3>
-        </div>
 
-        <form action="/checkout" method="POST">
-            <button type="submit" name="button"><h4>Place Order</h4></button>
-        </form>
+        
+        
+        
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
-    </body>
+        <script>
+            var message = <%- JSON.stringify(message) %>;
+            if(message=="true" || message=="false"){
+                $("#myModal").modal("show");
+            }else{
+                $("myModal").modal("hide");
+            }
+        </script>
+
 
     <%- include('partial/footer'); %>

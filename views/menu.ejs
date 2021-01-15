@@ -19,7 +19,7 @@
                     >
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link active" href="#">Menu <span class="sr-only">(current)</span></a>
+                    <a class="nav-link active" href="/menu"><span class="sr-only">(current)</span>Menu </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/reservation">Dine in</a>
@@ -36,14 +36,14 @@
           <section id="heading">
             <div>
               <img
-                src="/images/menu3.jpeg"
+                src="/images/menu2.jpeg"
                 class="img-fluid bgimage"
                 alt="Responsive image"
               />
               <div class="container name">
                 <div class="row">
                   <div class="col-12">
-                    <p class="restroName" >Menu</p>
+                    <p class="restroName">Menu</p>
                   </div>
                   <div class="col-12">
                     <p class="slogan">Hello to Fresh Mellow!</p>
@@ -102,7 +102,14 @@
                                 <h1 style="font-weight: 600;">CART</h1>
                             </div>
 
-                            <div class="row" id="cartitems" style="font-weight: 400;font-size: 1rem; padding-left:1rem ;">
+                            <div class="jumbotron container" id="emptycart" style="text-align: center;background-color: #f1f1f1;">
+                                <p>
+                                    <i style="color: rgb(180, 175, 175);" class="fas fa-shopping-cart fa-4x"></i>
+                                </p>
+                                <p style="font-weight: 300;font-size: 1rem;opacity: 60%;">Your cart is Empty.</p>
+                            </div> 
+
+                            <div class="row cartitems" id="cartitems">
                             </div>
 
                             <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
@@ -110,7 +117,10 @@
 
                             <div id="placeOrder" style="padding: 1rem 0.1rem;">
                                 <form action="/checkout" method="GET">
-                                    <button type="submit" class="btn btn-success" style="width: 100%;" name="button">
+                                    <button type="submit" id="disabledbutton" class="btn btn-success" style="width: 100%;" name="button" disabled>
+                                        <h4>Checkout</h4>
+                                    </button>
+                                    <button type="submit" id="checkoutbutton" class="btn btn-success" style="width: 100%;" name="button">
                                         <h4>Checkout</h4>
                                     </button>
                                 </form>
@@ -121,6 +131,8 @@
                 </div>
             </div>
         </section>
+
+        
 
 
         <% var currentYear = new Date().getFullYear() %>
@@ -150,7 +162,7 @@
         <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         
-    </body>
+    
 
 
 

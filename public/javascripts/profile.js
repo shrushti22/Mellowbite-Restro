@@ -8,6 +8,8 @@ function change(event) {
         name: name,
     }
 
+    console.log(data);
+
     $.ajax({
         global: false,
         type: 'POST',

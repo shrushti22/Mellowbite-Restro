@@ -375,6 +375,15 @@ body{
     padding: 0.5rem;
 }
 
+.cartitems{
+    font-weight: 400;
+    font-size: 1rem;
+    margin: 0.5rem;
+    padding-right: 0 !important;
+    padding:1rem;
+    background-color: #f1f1f1;
+}
+
 /* ----------------------------------------------------------media query---------------------------------------------------------------------------- */
 @media only screen and (max-width: 1200px) {
     .navbar{
@@ -417,14 +426,14 @@ body{
 
 @media only screen and (max-width: 800px){
     .restroName{
-        font-size: 4rem;
+        font-size: 3.5rem;
         top: 30%;
     }
     .navbar-brand{
         font-size: 1rem;
     }
     .slogan{
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         top: -10%;
     }
     .white-section{
@@ -442,7 +451,7 @@ body{
     }
     .cover{
         text-align: center;
-        height: 22rem;
+        height: 24rem;
         margin-top: 0;
     }
     .profile{
@@ -458,8 +467,10 @@ body{
     }
     .editProfile{
         position: relative;
+        text-align: center;
         bottom: 0;
         left: 0;
+        margin: auto;
     }
     .category{
         font-size: 1.5rem;

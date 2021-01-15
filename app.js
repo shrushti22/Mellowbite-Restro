@@ -45,6 +45,7 @@ const cartSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
     orderItems: [cartSchema],
+    date: {type: Date},
     orderTotal: Number,
 })
 
@@ -77,14 +78,14 @@ const Order = new mongoose.model("Order", orderSchema);
 
 
 
-/*const item1 = new Menu({
-    itemName: "Burger",
-    itemPrice: 80,
-    itemCategory: "Fastfood"
-})
+// const item1 = new Menu({
+//     itemName: "",
+//     itemPrice: 40,
+//     itemCategory: "Chinese"
+// })
 
-item1.save();
-*/
+// item1.save();
+
 
 
 //Creating Strategy for Authentication
@@ -123,7 +124,7 @@ app.get("/profile", function(req, res) {
 
 app.get("/reservation", function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("reservation");
+        res.render("reservation",{message: "none"});
     } else {
         res.redirect("/security");
     }
@@ -153,7 +154,7 @@ app.get("/menu", function(req, res) {
 
 app.get("/checkout", function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal })
+        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal, message: "none" })
     } else {
         res.redirect("/security");
     }
@@ -247,21 +248,22 @@ app.post("/menu", function(req, res) {
 app.post("/checkout", function(req, res) {
     const order = new Order({
         orderItems: req.user.cart,
+        date: new Date(),
         orderTotal: req.user.cartTotal,
     });
 
     req.user.orders.push(order);
     req.user.cart = [];
     req.user.cartTotal = 0;
-    conf_info = "order successfull";
+    conf_info = "true";
 
 
     req.user.save(function(err) {
         if (err) {
             console.log(err);
-            conf_info = "order NOT successfull";
+            conf_info = "false";
         }
-        res.redirect("/confirmed");
+        res.render("checkout",{ cart: req.user.cart, total: req.user.cartTotal,message : conf_info });
     });
 
 
@@ -281,7 +283,7 @@ app.post("/reservation", function(req, res) {
         people: people
     })
 
-    conf_info = "Reservation successfull";
+    conf_info = "true";
 
     User.findOne({ username: req.user.username }, function(err, founduser) {
         if (err) {
@@ -292,9 +294,9 @@ app.post("/reservation", function(req, res) {
             founduser.save(function(err) {
                 if (err) {
                     console.log(err);
-                    conf_info = "Reservation NOT successfull";
+                    conf_info = "false";
                 }
-                res.redirect("/confirmed");
+                res.render("reservation",{message: conf_info});
             });
         }
     });
