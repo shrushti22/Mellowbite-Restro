@@ -133,7 +133,9 @@ app.get("/", function(req, res) {
 app.get("/profile", function(req, res) {
     if (req.isAuthenticated()) {
         var person = req.user;
+
         console.log(person.img);
+
         res.render("profile", { name: person.name, username: person.username, reservations: person.reservations, orders: person.orders, image: person.img });
     } else {
         res.redirect("/security");
@@ -259,6 +261,9 @@ app.post("/profile", function(req, res) {
 })
 
 app.post("/profileimg", upload.single('image'), function(req, res) {
+
+    console.log(req.file);
+
     req.user.img = {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'

@@ -35,7 +35,7 @@
       <div class="row cover">
         <div class="col-12">
           <div>
-            <%if(image){%>
+            <%if(image != '{}'){%>
               <img class="profile" src="data:image/<%=image.contentType%>;base64,
               <%=image.data.toString('base64')%>">
             <%}else{%>
@@ -139,16 +139,13 @@
 
   </section>
 
-  <form action="/profileimg" method="POST" enctype="multipart/form-data">
-    <div>
+  <form id="profileimg" action="/profileimg" method="POST" enctype="multipart/form-data">
+   
         <label for="image">Upload Image</label>
         <input type="file" id="image" name="image" value="" required>
-    </div>
-    <div>
-        <button type="submit">Submit</button>
-    </div>
+        <button type="submit" >Submit</button>
+   
 </form>
-
 
   <section id="reservation">
     <div class="container">
@@ -453,6 +450,7 @@
     </div>
   </section>
 
+  <script src="http://malsup.github.com/jquery.form.js"></script> 
   <script type="text/javascript" src="javascripts/profile.js"></script>
   <%- include('partial/footer'); %>
 </body>

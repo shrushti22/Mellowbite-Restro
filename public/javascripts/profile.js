@@ -27,22 +27,10 @@ function details_change(event) {
 
 }
 
-function img_change(event) {
-    event.preventDefault();
-    var form = document.getElementById("profileimg");
 
-    var img = form.elements.image.value;
+$('#profileimg').submit(function() {
 
-    var data = {
-        img: img,
-    }
-
-
-    $.ajax({
-        global: false,
-        type: 'POST',
-        url: '/profileimg',
-        data: data,
+    $(this).ajaxSubmit({
         success: function(result) {
             window.location.reload();
         },
@@ -50,8 +38,6 @@ function img_change(event) {
             alert("error");
         }
     });
-    $(document).ajaxSuccess(function() {
-        alert("AJAX request successfully completed");
-    });
-
-}
+    //Very important line, it disable the page refresh.
+    return false;
+});
