@@ -98,33 +98,36 @@
                                               
                 
                         <div class="col-lg-4">
-                            <div id="cartTitle" style="margin-top: 2rem;">
-                                <h1 style="font-weight: 600;">CART</h1>
+                            <div>
+                                <div id="cartTitle" style="margin-top: 2rem;">
+                                    <h1 style="font-weight: 600;">CART</h1>
+                                </div>
+    
+                                <div class="jumbotron container" id="emptycart" style="text-align: center;background-color: #f1f1f1;">
+                                    <p>
+                                        <i style="color: rgb(180, 175, 175);" class="fas fa-shopping-cart fa-4x"></i>
+                                    </p>
+                                    <p style="font-weight: 300;font-size: 1rem;opacity: 60%;">Your cart is Empty.</p>
+                                </div> 
+    
+                                <div class="row cartitems" id="cartitems">
+                                </div>
+    
+                                <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
+                                </div>
+    
+                                <div id="placeOrder" style="padding: 1rem 0.1rem;">
+                                    <form action="/checkout" method="GET">
+                                        <button type="submit" id="disabledbutton" class="btn btn-success" style="width: 100%;" name="button" disabled>
+                                            <h4>Checkout</h4>
+                                        </button>
+                                        <button type="submit" id="checkoutbutton" class="btn btn-success" style="width: 100%;" name="button">
+                                            <h4>Checkout</h4>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
-
-                            <div class="jumbotron container" id="emptycart" style="text-align: center;background-color: #f1f1f1;">
-                                <p>
-                                    <i style="color: rgb(180, 175, 175);" class="fas fa-shopping-cart fa-4x"></i>
-                                </p>
-                                <p style="font-weight: 300;font-size: 1rem;opacity: 60%;">Your cart is Empty.</p>
-                            </div> 
-
-                            <div class="row cartitems" id="cartitems">
-                            </div>
-
-                            <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
-                            </div>
-
-                            <div id="placeOrder" style="padding: 1rem 0.1rem;">
-                                <form action="/checkout" method="GET">
-                                    <button type="submit" id="disabledbutton" class="btn btn-success" style="width: 100%;" name="button" disabled>
-                                        <h4>Checkout</h4>
-                                    </button>
-                                    <button type="submit" id="checkoutbutton" class="btn btn-success" style="width: 100%;" name="button">
-                                        <h4>Checkout</h4>
-                                    </button>
-                                </form>
-                            </div>
+                            
                         </div>
                     </div>
 
@@ -152,6 +155,11 @@
             </div>
         </section>
 
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
 
         <script type="text/javascript">
@@ -159,11 +167,6 @@
             cart = JSON.parse(cart);
         </script>
         <script type="text/javascript" src="/javascripts/menu.js"></script>
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        
-    
-
 
 
 

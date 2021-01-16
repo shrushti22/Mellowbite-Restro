@@ -34,89 +34,83 @@
     <div class="container" style="margin: auto">
       <div class="row cover">
         <div class="col-12">
-          <div>
-            <%if(image != '{}'){%>
-              <img class="profile" src="data:image/<%=image.contentType%>;base64,
-              <%=image.data.toString('base64')%>">
-            <%}else{%>
-              <img
-              class="profile"
-              src="/images/images2.jpg"
-              alt="profile image not found"
-            />
-            <% } %> 
-          </div>
-          <div class="profileUser">
-            <p style="font-size: 1.5rem; margin-bottom: 0rem">
-              Hello <%=name%>
-            </p>
-            <p style="font-size: 1rem; font-weight: 400"><%= username %></p>
-          </div>
-          <div class="editProfile">
-            <a
-              class="btn btn-light btn-sm"
-              style="padding: 0.3rem 1rem; margin-bottom: 0.3rem"
-              role="button"
-              id="editProfile"
-              data-toggle="modal"
-              data-target="#editProfileModal"
-              ><i class="fas fa-edit fa-1x"></i> &nbsp; Edit Profile</a
-            >
-            <a
-              class="btn btn-light btn-sm"
-              style="padding: 0.3rem 1rem;"
-              role="button"
-              id="logout"
-              href="/logout"
-              >Logout</a
-            >
-          </div>
-          <div
-            class="modal fade bd-example-modal-lg"
-            id="editProfileModal"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalCenterTitle"
-            aria-hidden="true"
-          >
-            <div
-              class="modal-dialog modal-dialog-centered modal-lg"
-              role="document"
-            >
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">
-                    Edit Profile
-                  </h5>
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
+          <div style="position: relative; display: flex;">
+            <div style="position: absolute;">
+              <%if(image != '{}'){%>
+                <img class="profile" src="data:image/<%=image.contentType%>;base64,
+                <%=image.data.toString('base64')%>">
+              <%}else{%>
+                <img
+                class="profile"
+                src="/images/images2.jpg"
+                alt="profile image not found"
+              />
+              <% } %> 
+            </div>
+            <div class="upload">
+              <a role="button" data-toggle="modal" data-target="#uploadimage">
+                <span class="fa-stack fa-2x camera">
+                  <i class="fas fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-camera fa-stack-1x"></i>
+                </span>
+              </a>
                 </div>
 
-              
-                <form id="editprofile">
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label for="name" class="col-form-label">Name : </label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        name="name"
-                        id="newname"
-                      />
+                <div class="modal fade" id="uploadimage" tabindex="-1" role="dialog" aria-labelledby="uploadimagelabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="uploadimagelabel">Upload Image</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                            </div>
+                            <form id="profileimg" action="/profileimg" method="POST" enctype="multipart/form-data"></form>
+                            <div class="modal-body">
+                                <div>
+                                    <label for="image">Upload Image</label>
+                                    <input type="file" id="image" name="image" value="" required>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Upload Image</button>
+                            </div>
+                            </form>
+                        </div>
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a
-                      role="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
-                      >Close</a
+                </div>
+                </div>
+                <div class="profileUser">
+                    <p style="font-size: 1.5rem; margin-bottom: 0rem">
+                        Hello
+                        <%=name%>
+                            <a class="edit" data-toggle="modal" data-target="#editname"><i class="fas fa-edit fa-1x"></i></a>
+                    </p>
+                    <p style="font-size: 1rem; font-weight: 400">
+                        <%= username %>
+                    </p>
+                </div>
+                <div class="modal fade" id="editname" tabindex="-1" role="dialog" aria-labelledby="editnamelabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editnamelabel">Change Name</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                            </div>
+                            <form action="/profileimg" method="POST" enctype="multipart/form-data"></form>
+                            <div class="modal-body">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="name" class="col-form-label">Name : </label>
+                                        <input type="text" class="form-control" name="name" id="newname" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a
                     >
                     <button
                       role="button"
@@ -133,19 +127,50 @@
               </div>
             </div>
           </div>
+          <div class="logout">
+            <a
+              class="btn btn-light btn-sm"
+              style="padding: 0.3rem 1rem;"
+              role="button"
+              id="logout"
+              href="/logout"
+              >Logout</a
+            >
+          </div>   
         </div>
       </div>
     </div>
 
   </section>
 
-  <form id="profileimg" action="/profileimg" method="POST" enctype="multipart/form-data">
-   
-        <label for="image">Upload Image</label>
-        <input type="file" id="image" name="image" value="" required>
-        <button type="submit" >Submit</button>
-   
-</form>
+  <section id="address">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div
+            style="
+              display: inline-block;
+              width: fit-content;
+              text-align: center;
+            "
+          >
+            <p class="title-sans-lettering">Address</p>
+          </div>
+        </div>
+      </div>
+      <div class="row" style="padding: 1rem">
+          <div
+          class="jumbotron container"
+          style="text-align: center; background-color: #f1f1f1"
+        >
+          <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
+            Address not added yet.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
 
   <section id="reservation">
     <div class="container">
@@ -451,6 +476,15 @@
   </section>
 
   <script src="http://malsup.github.com/jquery.form.js"></script> 
+
+  <!-- JQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+  <!-- bootstrap script -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
   <script type="text/javascript" src="javascripts/profile.js"></script>
   <%- include('partial/footer'); %>
 </body>

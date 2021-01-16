@@ -6,11 +6,6 @@ $(window).scroll(function() {
     $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled', $(this).scrollTop() > topvalue);
 })
 
-if (message == "true" || message == "false") {
-    $("#myModal").modal("show");
-} else {
-    $("myModal").modal("hide");
-}
 
 function validate() {
     var flag = 0;
