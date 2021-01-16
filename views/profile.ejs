@@ -1,29 +1,29 @@
 <%- include('partial/header'); %>
 
-<body>
-    <section id="navbar">
-        <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark scrolled">
-            <div class="container">
-                <a class="navbar-brand scrolled" href="/"><strong>Mellowbite</strong></a>
-                <button class="navbar-toggler scrolled" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <body>
+        <section id="navbar">
+            <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark scrolled">
+                <div class="container">
+                    <a class="navbar-brand scrolled" href="/"><strong>Mellowbite</strong></a>
+                    <button class="navbar-toggler scrolled" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <i class="fa fa-bars fa-1x"></i>
             </button>
-            </div>
+                </div>
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item ">
-                        <a class="nav-link scrolled" href="/">Home</a
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item ">
+                            <a class="nav-link scrolled" href="/">Home</a
                 >
               </li>
               <li class="nav-item">
                 <a class="nav-link scrolled" href="/menu">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link scrolled" href="/reservation">Dine in</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-light scrolled" role="button" id="profile" href="/profile"><i class="fas fa-user"></i> &nbsp Profile</a
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link scrolled" href="/reservation">Dine in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-light scrolled" role="button" id="profile" href="/profile"><i class="fas fa-user"></i> &nbsp Profile</a
                 >
               </li>
             </ul>
@@ -35,11 +35,16 @@
       <div class="row cover">
         <div class="col-12">
           <div>
-            <img
+            <%if(image){%>
+              <img class="profile" src="data:image/<%=image.contentType%>;base64,
+              <%=image.data.toString('base64')%>">
+            <%}else{%>
+              <img
               class="profile"
               src="/images/images2.jpg"
               alt="profile image not found"
             />
+            <% } %> 
           </div>
           <div class="profileUser">
             <p style="font-size: 1.5rem; margin-bottom: 0rem">
@@ -92,6 +97,8 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+
+              
                 <form id="editprofile">
                   <div class="modal-body">
                     <div class="form-group">
@@ -117,7 +124,7 @@
                       name="button"
                       class="btn btn-light"
                       id="edit"
-                      onclick="change(event)"
+                      onclick="details_change(event)"
                     >
                       Save changes
                     </button>
@@ -129,7 +136,19 @@
         </div>
       </div>
     </div>
+
   </section>
+
+  <form action="/profileimg" method="POST" enctype="multipart/form-data">
+    <div>
+        <label for="image">Upload Image</label>
+        <input type="file" id="image" name="image" value="" required>
+    </div>
+    <div>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+
 
   <section id="reservation">
     <div class="container">
