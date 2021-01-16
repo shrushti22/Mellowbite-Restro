@@ -7,6 +7,9 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
+var fs = require('fs');
+var path = require('path');
+var multer = require('multer');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
@@ -45,7 +48,7 @@ const cartSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
     orderItems: [cartSchema],
-    date: {type: Date},
+    date: { type: Date },
     orderTotal: Number,
 })
 
@@ -64,6 +67,10 @@ const userSchema = new mongoose.Schema({
     orders: [orderSchema],
     cart: [cartSchema],
     cartTotal: Number,
+    img: {
+        data: Buffer,
+        contentType: String
+    }
 })
 
 //adding plugin to userSchema
@@ -99,6 +106,16 @@ passport.deserializeUser(User.deserializeUser());
 var display = " ";
 var conf_info = "";
 var categories = ["Starters", "Chinese"];
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+var upload = multer({ storage: storage });
+
 
 // GET Request
 app.get("/security", function(req, res) {
@@ -116,7 +133,8 @@ app.get("/", function(req, res) {
 app.get("/profile", function(req, res) {
     if (req.isAuthenticated()) {
         var person = req.user;
-        res.render("profile", { name: person.name, username: person.username, reservations: person.reservations, orders: person.orders });
+        console.log(person.img);
+        res.render("profile", { name: person.name, username: person.username, reservations: person.reservations, orders: person.orders, image: person.img });
     } else {
         res.redirect("/security");
     }
@@ -124,7 +142,7 @@ app.get("/profile", function(req, res) {
 
 app.get("/reservation", function(req, res) {
     if (req.isAuthenticated()) {
-        res.render("reservation",{message: "none"});
+        res.render("reservation", { message: "none" });
     } else {
         res.redirect("/security");
     }
@@ -232,7 +250,20 @@ app.post("/", function(req, res) {
 
 app.post("/profile", function(req, res) {
     var name = req.body.name;
+
     req.user.name = _.capitalize(name);
+
+    req.user.save(function() {
+        res.redirect("/profile");
+    });
+})
+
+app.post("/profileimg", upload.single('image'), function(req, res) {
+    req.user.img = {
+        data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
+        contentType: 'image/png'
+    }
+
     req.user.save(function() {
         res.redirect("/profile");
     });
@@ -263,7 +294,7 @@ app.post("/checkout", function(req, res) {
             console.log(err);
             conf_info = "false";
         }
-        res.render("checkout",{ cart: req.user.cart, total: req.user.cartTotal,message : conf_info });
+        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal, message: conf_info });
     });
 
 
@@ -296,7 +327,7 @@ app.post("/reservation", function(req, res) {
                     console.log(err);
                     conf_info = "false";
                 }
-                res.render("reservation",{message: conf_info});
+                res.render("reservation", { message: conf_info });
             });
         }
     });
