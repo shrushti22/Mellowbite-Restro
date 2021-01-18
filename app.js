@@ -54,6 +54,8 @@ const cartSchema = new mongoose.Schema({
 })
 
 const orderSchema = new mongoose.Schema({
+    name: String,
+    address: String,
     orderItems: [cartSchema],
     date: {
         type: Date
@@ -94,17 +96,6 @@ const Menu = new mongoose.model("Menu", menuSchema);
 const Cart = new mongoose.model("Cart", cartSchema);
 const Reserve = new mongoose.model("Reserve", reservationSchema);
 const Order = new mongoose.model("Order", orderSchema);
-
-
-
-// const item1 = new Menu({
-//     itemName: "Burger",
-//     itemPrice: 40,
-//     itemCategory: "Chinese"
-// })
-
-// item1.save();
-
 
 
 //Creating Strategy for Authentication
@@ -171,7 +162,8 @@ app.get("/profile", function (req, res) {
 app.get("/reservation", function (req, res) {
     if (req.isAuthenticated()) {
         res.render("reservation", {
-            message: "none"
+            name: req.user.name,
+            message: "none",
         });
     } else {
         res.redirect("/security");
@@ -200,9 +192,20 @@ app.get("/menu", function (req, res) {
 
 })
 
+app.get("/addmenu", function (req, res) {
+    if (req.isAuthenticated() && req.user.username == "rutvij.vamja@gmail.com" || req.user.username == "shrushtivasaniya@gmail.com") {
+        res.render("addmenu");
+    } else {
+        res.redirect("/main");
+    }
+
+})
+
 app.get("/checkout", function (req, res) {
     if (req.isAuthenticated()) {
         res.render("checkout", {
+            name: req.user.name,
+            address: req.user.address,
             cart: req.user.cart,
             total: req.user.cartTotal,
             message: "none"
@@ -241,7 +244,6 @@ app.post("/security", function (req, res) {
 
         User.register({
             username: req.body.username,
-            name: "New User!"
         }, req.body.password, function (err, user) {
             if (err) {
                 console.log(err);
@@ -291,6 +293,30 @@ app.post("/", function (req, res) {
     if (button == "BeeHome") {
         res.redirect("/menu");
     }
+})
+
+app.post("/addmenu", function (req, res) {
+    if (req.isAuthenticated() && req.user.username == "rutvij.vamja@gmail.com" || req.user.username == "shrushtivasaniya@gmail.com") {
+        var itemname = req.body.itemname;
+        var itemprice = req.body.itemprice;
+        var itemcategory = req.body.itemcategory;
+
+        if (!categories.includes(itemcategory)) {
+            categories.push(itemcategory);
+        }
+
+        const item = new Menu({
+            itemName: itemname,
+            itemPrice: itemprice,
+            itemCategory: itemcategory,
+        })
+
+
+
+    } else {
+        res.redirect("/main");
+    }
+
 })
 
 app.post("/profile", function (req, res) {
@@ -343,7 +369,12 @@ app.post("/menu", function (req, res) {
 })
 
 app.post("/checkout", function (req, res) {
+    if (req.body.name) {
+        req.user.name = req.body.name;
+    }
+
     const order = new Order({
+        name: req.user.name,
         orderItems: req.user.cart,
         date: new Date(),
         orderTotal: req.user.cartTotal,
@@ -363,7 +394,9 @@ app.post("/checkout", function (req, res) {
         res.render("checkout", {
             cart: req.user.cart,
             total: req.user.cartTotal,
-            message: conf_info
+            message: conf_info,
+            name: req.user.name,
+            address: req.user.address,
         });
     });
 
@@ -373,12 +406,15 @@ app.post("/checkout", function (req, res) {
 
 app.post("/reservation", function (req, res) {
 
+    if (req.body.name) {
+        req.user.name = req.body.name;
+    }
+
     var date = req.body.date;
     var people = req.body.no_of_people;
 
-
     const reservation = new Reserve({
-        name: req.body.name,
+        name: req.user.name,
         phoneNo: req.body.number,
         date: date + "T" + req.body.time + "+05:30",
         people: people
@@ -386,27 +422,18 @@ app.post("/reservation", function (req, res) {
 
     conf_info = "true";
 
-    User.findOne({
-        username: req.user.username
-    }, function (err, founduser) {
+    req.user.reservations.push(reservation);
+
+    req.user.save(function (err) {
         if (err) {
             console.log(err);
-            res.redirect("/reservation");
-        } else {
-            founduser.reservations.push(reservation);
-            founduser.save(function (err) {
-                if (err) {
-                    console.log(err);
-                    conf_info = "false";
-                }
-                res.render("reservation", {
-                    message: conf_info
-                });
-            });
+            conf_info = "false";
         }
+        res.render("reservation", {
+            name: req.user.name,
+            message: conf_info,
+        });
     });
-
-
 
 })
 

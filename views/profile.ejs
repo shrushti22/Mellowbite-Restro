@@ -83,7 +83,11 @@
                     <div class="profileUser">
                         <p style="font-size: 1.5rem; margin-bottom: 0rem">
                             Hello
+                            <%if(name){%>
                             <%=name%>
+                            <%}else{%>
+                            New User!
+                            <%}%>
                             <a class="edit" data-toggle="modal" data-target="#editname"><i
                                     class="fas fa-edit fa-1x"></i></a>
                         </p>
@@ -238,11 +242,8 @@
                             <div class="card" style="background-color: #f1f1f1;">
                                 <% } %>
                                 <div class="card-body">
-                                    <h5 class="card-title" style="
-                  font-size: 1.5rem;
-                  font-weight: 600;
-                  margin-bottom: 1.5rem;
-                ">
+                                    <h5 class="card-title"
+                                        style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem">
                                         <%= reserve.name.toUpperCase()%>
                                     </h5>
                                     <p class="card-text"
@@ -252,34 +253,22 @@
                                     <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
                                         <%= date %>
                                     </p>
-                                    <p class="card-text" style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                ">
+                                    <p class="card-text"
+                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem">
                                         TIME
                                     </p>
                                     <p class="card-text" style="font-weight: 400; color: black">
                                         <%= time%>
                                     </p>
-                                    <p class="card-text" style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                ">
+                                    <p class="card-text"
+                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
                                         NUMBER OF PEOPLE
                                     </p>
                                     <p class="card-text" style="font-weight: 400; color: black">
                                         <%= reserve.people%>
                                     </p>
-                                    <p class="card-text" style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                ">
+                                    <p class="card-text"
+                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
                                         PHONE NUMBER
                                     </p>
                                     <p class="card-text" style="font-weight: 400; color: black">
@@ -299,11 +288,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div style="
-              display: inline-block;
-              width: fit-content;
-              text-align: center;
-            ">
+                    <div style="display: inline-block;width: fit-content;text-align: center">
                         <p class="title-sans-lettering">Orders</p>
                     </div>
                 </div>
@@ -338,7 +323,7 @@
                     <div class="card" style="background-color: #f1f1f1">
                         <div class="card-body">
                             <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem;">
-                                <%= username.toUpperCase() %>
+                                <%= order.name.toUpperCase() %>
                             </h5>
                             <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
                                 ORDER ID
