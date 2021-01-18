@@ -12,6 +12,9 @@ var fs = require('fs');
 const fsExtra = require('fs-extra')
 var path = require('path');
 var multer = require('multer');
+const {
+    log
+} = require('console');
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -72,6 +75,10 @@ const reservationSchema = new mongoose.Schema({
     people: Number,
 })
 
+const categoriesSchema = new mongoose.Schema({
+    name: String,
+})
+
 const userSchema = new mongoose.Schema({
     name: String,
     username: String,
@@ -96,6 +103,7 @@ const Menu = new mongoose.model("Menu", menuSchema);
 const Cart = new mongoose.model("Cart", cartSchema);
 const Reserve = new mongoose.model("Reserve", reservationSchema);
 const Order = new mongoose.model("Order", orderSchema);
+const Category = new mongoose.model("category", categoriesSchema)
 
 
 //Creating Strategy for Authentication
@@ -106,9 +114,8 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //variables
-var display = " ";
+var display = "";
 var conf_info = "";
-var categories = ["Starters", "Chinese"];
 var storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'uploads')
@@ -203,6 +210,8 @@ app.get("/addmenu", function (req, res) {
 
 app.get("/checkout", function (req, res) {
     if (req.isAuthenticated()) {
+        message = "none";
+        console.log(message);
         res.render("checkout", {
             name: req.user.name,
             address: req.user.address,
@@ -301,17 +310,23 @@ app.post("/addmenu", function (req, res) {
         var itemprice = req.body.itemprice;
         var itemcategory = req.body.itemcategory;
 
-        if (!categories.includes(itemcategory)) {
-            categories.push(itemcategory);
-        }
-
-        const item = new Menu({
-            itemName: itemname,
-            itemPrice: itemprice,
-            itemCategory: itemcategory,
+        var category = new Category({
+            name: itemcategory,
         })
 
+        console.log(category);
+        category.save(function () {
 
+            const item = new Menu({
+                itemName: itemname,
+                itemPrice: itemprice,
+                itemCategory: itemcategory,
+            })
+
+            item.save(function () {
+                res.redirect("/addmenu");
+            })
+        })
 
     } else {
         res.redirect("/main");
@@ -369,11 +384,17 @@ app.post("/menu", function (req, res) {
 })
 
 app.post("/checkout", function (req, res) {
+    console.log(req.body);
+
     if (req.body.name) {
         req.user.name = req.body.name;
     }
+    if (!req.user.address.length) {
+        req.user.address.push(req.body.address);
+    }
 
     const order = new Order({
+        address: req.body.address,
         name: req.user.name,
         orderItems: req.user.cart,
         date: new Date(),
@@ -391,6 +412,8 @@ app.post("/checkout", function (req, res) {
             console.log(err);
             conf_info = "false";
         }
+        console.log("herer");
+        console.log(conf_info);
         res.render("checkout", {
             cart: req.user.cart,
             total: req.user.cartTotal,

@@ -1,8 +1,6 @@
 <%- include('partial/header'); %>
 
 <body class="text-center">
-
-
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -16,109 +14,120 @@
                 <div class="modal-body">
                     <% if(message=="true" ){ %>
                     <% var direct="/profile" %>
-                    <p style="font-size: 1rem;font-weight: 400;">Your Order is Confirmed.</p>
+                    <p style="font-size: 1rem; font-weight: 400">
+                        Your Order is Confirmed.
+                    </p>
                     <% }else if(message=="false" ){ %>
                     <% var direct="/checkout" %>
-                    <p style="font-weight: 400;font-size: 1rem;color: red;">Your Order is not
-                        Confirmed.</p>
-                    <p style="font-size: 400;font-weight: 1rem;"> Please try again later. </p>
+                    <p style="font-weight: 400; font-size: 1rem; color: red">
+                        Your Order is not Confirmed.
+                    </p>
+                    <p style="font-size: 400; font-weight: 1rem">
+                        Please try again later.
+                    </p>
                     <% } %>
                 </div>
                 <div class="modal-footer">
-
                     <a role="button" class="btn btn-secondary" href="/profile">Close</a>
                 </div>
             </div>
         </div>
     </div>
 
-
     <form id="orderform" method="POST" action="/checkout">
         <div class="container">
             <div class="row">
                 <div class="col-12">
-                    <div
-                        style="display: inline-block;width: fit-content;text-align: center;padding-top: 10%;padding-right: 4%;padding-bottom: 5%; ">
+                    <div style="
+              display: inline-block;
+              width: fit-content;
+              text-align: center;
+              padding-top: 10%;
+              padding-right: 4%;
+              padding-bottom: 5%;
+            ">
                         <p class="cursive-lettering">Your</p>
                         <p class="title-sans-lettering">Order Preview</p>
                     </div>
                 </div>
             </div>
 
-            <div class="col-6" style="font-weight: 600;">
+            <div class="col-6" style="font-weight: 600">
                 <%if(name){%>
                 <p>Name <%=name%>
                 </p>
                 <%}else{%>
                 <p>Name</p>
-                <input id="newname" name="name" placeholder="name" required>
+                <input id="newname" name="name" placeholder="name" required />
                 <%}%>
-            </div>
+                </div>
 
-            <div class="col-6" style="font-weight: 600;">
+                <div class="col-6" style="font-weight: 600">
                     <label for="address">Address:</label>
 
-                    <select name="addresses" id="list">
-                        <%address.forEach(function(address){%>
-                <option value="<%=address%>"><%=address%></option>
-                <%})%>
+                    
+                        <%if(address.length){%>
+                <select name="address" id="list">
+                    <%address.forEach(function(address){%>
+                    <option value="<%=address%>">
+                        <%=address%>
+                    </option>
+                    <%})%>
+                    <%}else{%>
+                    <input id="newaddress" name="address" placeholder="address" required />
+                    <%}%>
                 </select>
             </div>
 
-            <div class="row cartitems" style="width: fit-content;margin: auto;font-size: 1rem;font-weight: 400;">
-                <div class="col-4" style="font-weight: 600;">
+            <div class="row cartitems" style="width: fit-content;margin: auto;font-size: 1rem;font-weight: 400">
+                <div class="col-4" style="font-weight: 600">
                     <p>Item Name</p>
                 </div>
-                <div class="col-4" style="font-weight: 600;">
+                <div class="col-4" style="font-weight: 600">
                     <p>Quantity</p>
                 </div>
-                <div class="col-4" style="font-weight: 600;">
+                <div class="col-4" style="font-weight: 600">
                     <p>Price</p>
                 </div>
                 <%cart.forEach(function(item){%>
-                <div class="col-4">
-                    <p>
-                        <%=item.itemName%>
-                    </p>
-                </div>
-                <div class="col-4">
-                    <p>
-                        <%=item.itemQuantity%>
-                    </p>
-                </div>
-                <div class="col-4">
-                    <p>
-                        <%=item.itemTotal%>
-                    </p>
-                </div>
-                <%})%>
-                <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
-                    <p>Total</p>
-                </div>
-                <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
-
-                </div>
-                <div class="col-4" style="font-weight: 600;font-size: 1.5rem;">
-                    <p>
-                        <%= total%>
-                    </p>
-                </div>
+                    <div class="col-4">
+                        <p>
+                            <%=item.itemName%>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p>
+                            <%=item.itemQuantity%>
+                        </p>
+                    </div>
+                    <div class="col-4">
+                        <p>
+                            <%=item.itemTotal%>
+                        </p>
+                    </div>
+                    <%})%>
+                    <div class="col-4" style="font-weight: 600; font-size: 1.5rem">
+                        <p>Total</p>
+                    </div>
+                    <div class="col-4" style="font-weight: 600; font-size: 1.5rem"></div>
+                    <div class="col-4" style="font-weight: 600; font-size: 1.5rem">
+                        <p>
+                            <%= total%>
+                        </p>
+                    </div>
             </div>
             <div class="row">
-                <div class="col-12" style="padding: 2rem 1rem;">
+                <div class="col-12" style="padding: 2rem 1rem">
                     <form action="/checkout" method="POST">
-                        <button type="submit" id="placeOrder" style="padding: 0.5rem 15%; font-size: 1.7rem;"
+                        <button type="submit" id="placeOrder" style="padding: 0.5rem 15%; font-size: 1.7rem"
                             class="btn btn-success" name="button">
                             Place Order
                         </button>
                     </form>
                 </div>
-
             </div>
         </div>
     </form>
-
-
 
     <!-- JQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -134,9 +143,10 @@
     <script>
         var message = '<%-JSON.stringify(message)%>';
         message = JSON.parse(message);
+        console.log(message);
     </script>
 
     <script type="text/javascript" src="javascripts/checkout.js"></script>
 
-
     <%- include('partial/footer'); %>
+</body>
