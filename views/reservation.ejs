@@ -1,45 +1,13 @@
 <%- include('partial/header'); %>
 
-    <<<<<<< HEAD <body>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Status</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-                    </div>
-                    <div class="modal-body">
-                        <% if(message=="true"){ %>
-                            <% var direct = "/profile" %>
-                                <p style="font-size: 1rem;font-weight: 400;">Your Reservation is Confirmed.</p>
-                                <% }else if(message=="false"){ %>
-                                    <% var direct = "/reservation" %>
-                                        <p style="font-weight: 400;font-size: 1rem;color: red;">Your Reservation is not Confirmed.</p>
-                                        <p style="font-size: 400;font-weight: 1rem;"> Please try again later. </p>
-                                        <% } %>
-                    </div>
-                    <div class="modal-footer">
-                        <a role="button" class="btn btn-secondary" href="/profile">Close</a>
-                    </div>
-                </div>
-            </div>
-        </div>
 
+    <body>
         <section id="navbar">
             <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
                 <div class="container">
                     <a class="navbar-brand" href="/"><strong>Mellowbite</strong></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-=======
-<body>
-  <section id="navbar">
-    <nav id="nav" class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="/"><strong>Mellowbite</strong></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
->>>>>>> 310f853c91ecb6d6bf38dabace3bd802a5772dbc
+
           <i class="fa fa-bars fa-1x"></i>
         </button>
                 </div>
@@ -238,6 +206,8 @@
             message = JSON.parse(message);
             if (message == "true" || message == "false") {
                 $("#myModal").modal("show");
+                message = "none";
+                $.get("/profile");
             } else {
                 $("myModal").modal("hide");
             }

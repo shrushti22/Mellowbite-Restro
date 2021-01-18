@@ -7,16 +7,23 @@ const app = express();
 const session = require('express-session');
 const passport = require('passport');
 const passportLocalMongoose = require('passport-local-mongoose');
+const ejsLint = require('ejs-lint');
 var fs = require('fs');
+const fsExtra = require('fs-extra')
 var path = require('path');
 var multer = require('multer');
 
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
 
 //Creating Database
-const db = mongoose.connect('mongodb://localhost/Restro', { useNewUrlParser: true, useUnifiedTopology: true });
+const db = mongoose.connect('mongodb://localhost/Restro', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
@@ -48,14 +55,18 @@ const cartSchema = new mongoose.Schema({
 
 const orderSchema = new mongoose.Schema({
     orderItems: [cartSchema],
-    date: { type: Date },
+    date: {
+        type: Date
+    },
     orderTotal: Number,
 })
 
 const reservationSchema = new mongoose.Schema({
     name: String,
     phoneNo: Number,
-    date: { type: Date },
+    date: {
+        type: Date
+    },
     people: Number,
 })
 
@@ -70,7 +81,8 @@ const userSchema = new mongoose.Schema({
     img: {
         data: Buffer,
         contentType: String
-    }
+    },
+    address: [],
 })
 
 //adding plugin to userSchema
@@ -86,7 +98,7 @@ const Order = new mongoose.model("Order", orderSchema);
 
 
 // const item1 = new Menu({
-//     itemName: "",
+//     itemName: "Burger",
 //     itemPrice: 40,
 //     itemCategory: "Chinese"
 // })
@@ -114,46 +126,62 @@ var storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
-var upload = multer({ storage: storage });
+var upload = multer({
+    storage: storage
+});
 
 
 // GET Request
-app.get("/security", function(req, res) {
-    res.render("security", { display: display, message: true });
+app.get("/security", function (req, res) {
+    res.render("security", {
+        display: display,
+        message: true
+    });
 })
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("main", { message: true });
+        res.render("main", {
+            message: true
+        });
     } else {
-        res.render("main", { message: false });
+        res.render("main", {
+            message: false
+        });
     }
 });
 
-app.get("/profile", function(req, res) {
+app.get("/profile", function (req, res) {
     if (req.isAuthenticated()) {
         var person = req.user;
 
-        console.log(person.img);
-
-        res.render("profile", { name: person.name, username: person.username, reservations: person.reservations, orders: person.orders, image: person.img });
+        res.render("profile", {
+            name: person.name,
+            username: person.username,
+            reservations: person.reservations,
+            orders: person.orders,
+            image: person.img,
+            addresses: person.address
+        });
     } else {
         res.redirect("/security");
     }
 })
 
-app.get("/reservation", function(req, res) {
+app.get("/reservation", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("reservation", { message: "none" });
+        res.render("reservation", {
+            message: "none"
+        });
     } else {
         res.redirect("/security");
     }
 
 })
 
-app.get("/menu", function(req, res) {
+app.get("/menu", function (req, res) {
     if (req.isAuthenticated()) {
-        Menu.find({}, function(err, menu) {
+        Menu.find({}, function (err, menu) {
             if (err) {
                 console.log(err);
                 res.redirect("/menu");
@@ -172,18 +200,24 @@ app.get("/menu", function(req, res) {
 
 })
 
-app.get("/checkout", function(req, res) {
+app.get("/checkout", function (req, res) {
     if (req.isAuthenticated()) {
-        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal, message: "none" })
+        res.render("checkout", {
+            cart: req.user.cart,
+            total: req.user.cartTotal,
+            message: "none"
+        })
     } else {
         res.redirect("/security");
     }
 })
 
-app.get("/confirmed", function(req, res) {
+app.get("/confirmed", function (req, res) {
     if (req.isAuthenticated()) {
         if (conf_info) {
-            res.render("confirmed", { display: conf_info })
+            res.render("confirmed", {
+                display: conf_info
+            })
             conf_info = "";
         } else {
             res.redirect("/")
@@ -194,23 +228,29 @@ app.get("/confirmed", function(req, res) {
 
 })
 
-app.get("/logout", function(req, res) {
+app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/");
 })
 
 //POST Request
-app.post("/security", function(req, res) {
+app.post("/security", function (req, res) {
     var button = req.body.button;
 
     if (button == "SignUp") {
 
-        User.register({ username: req.body.username, name: "New User!" }, req.body.password, function(err, user) {
+        User.register({
+            username: req.body.username,
+            name: "New User!"
+        }, req.body.password, function (err, user) {
             if (err) {
                 console.log(err);
-                res.render("security", { display: "User Already Exist", message: false })
+                res.render("security", {
+                    display: "User Already Exist",
+                    message: false
+                })
             } else {
-                passport.authenticate("local")(req, res, function() {
+                passport.authenticate("local")(req, res, function () {
                     res.redirect("/");
                 })
             }
@@ -223,23 +263,26 @@ app.post("/security", function(req, res) {
             password: req.body.password
         })
 
-        req.login(person, function(err) {
+        req.login(person, function (err) {
             if (err) {
                 console.log(err);
                 res.redirect("/security");
             } else {
-                passport.authenticate("local", function(err, user, info) {
+                passport.authenticate("local", function (err, user, info) {
                     if (info) {
                         req.session.destroy();
-                        res.render("security", { display: "Incorrect username or password", message: false })
+                        res.render("security", {
+                            display: "Incorrect username or password",
+                            message: false
+                        })
                     } else(res.redirect("/"));
-                })(req, res, function() {});
+                })(req, res, function () {});
             };
         })
     }
 })
 
-app.post("/", function(req, res) {
+app.post("/", function (req, res) {
     button = req.body.button;
     if (button == "DineIn") {
         res.redirect("/reservation");
@@ -250,38 +293,56 @@ app.post("/", function(req, res) {
     }
 })
 
-app.post("/profile", function(req, res) {
+app.post("/profile", function (req, res) {
     var name = req.body.name;
 
     req.user.name = _.capitalize(name);
 
-    req.user.save(function() {
+    req.user.save(function () {
         res.redirect("/profile");
     });
 })
 
-app.post("/profileimg", upload.single('image'), function(req, res) {
+app.post("/profileaddress", function (req, res) {
+    var address = req.body.address;
+    var button = req.body.name;
 
-    console.log(req.file);
+    if (button == "add") {
+        req.user.address.push(address);
+        req.user.save(function () {
+            res.redirect("/profile");
+        });
+    } else {
+        const index = req.user.address.indexOf(address);
+        if (index > -1) {
+            req.user.address.splice(index, 1);
+        }
+        req.user.save(function () {
+            res.redirect("/profile");
+        });
+    }
+})
 
+app.post("/profileimg", upload.single('image'), function (req, res) {
     req.user.img = {
         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
         contentType: 'image/png'
     }
 
-    req.user.save(function() {
+    req.user.save(function () {
+        fsExtra.emptyDirSync(__dirname + '/uploads')
         res.redirect("/profile");
     });
 })
 
-app.post("/menu", function(req, res) {
+app.post("/menu", function (req, res) {
     req.user.cart = req.body.mycart;
     req.user.cartTotal = req.body.cartTotal;
     req.user.save();
     res.redirect("/menu");
 })
 
-app.post("/checkout", function(req, res) {
+app.post("/checkout", function (req, res) {
     const order = new Order({
         orderItems: req.user.cart,
         date: new Date(),
@@ -294,19 +355,23 @@ app.post("/checkout", function(req, res) {
     conf_info = "true";
 
 
-    req.user.save(function(err) {
+    req.user.save(function (err) {
         if (err) {
             console.log(err);
             conf_info = "false";
         }
-        res.render("checkout", { cart: req.user.cart, total: req.user.cartTotal, message: conf_info });
+        res.render("checkout", {
+            cart: req.user.cart,
+            total: req.user.cartTotal,
+            message: conf_info
+        });
     });
 
 
 
 })
 
-app.post("/reservation", function(req, res) {
+app.post("/reservation", function (req, res) {
 
     var date = req.body.date;
     var people = req.body.no_of_people;
@@ -321,18 +386,22 @@ app.post("/reservation", function(req, res) {
 
     conf_info = "true";
 
-    User.findOne({ username: req.user.username }, function(err, founduser) {
+    User.findOne({
+        username: req.user.username
+    }, function (err, founduser) {
         if (err) {
             console.log(err);
             res.redirect("/reservation");
         } else {
             founduser.reservations.push(reservation);
-            founduser.save(function(err) {
+            founduser.save(function (err) {
                 if (err) {
                     console.log(err);
                     conf_info = "false";
                 }
-                res.render("reservation", { message: conf_info });
+                res.render("reservation", {
+                    message: conf_info
+                });
             });
         }
     });
@@ -342,6 +411,6 @@ app.post("/reservation", function(req, res) {
 })
 
 // Server Hosting
-app.listen(3000, function() {
+app.listen(3000, function () {
     console.log("server started");
 })
