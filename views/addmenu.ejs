@@ -1,22 +1,35 @@
 <%- include('partial/header'); %>
 
-<body class="text-center">
+<body class="text-center" style="background-color: #f8f1f1;">
 
 
-    <form id="additem" method="POST">
+    <div class="container">
+        <form id="additem" method="POST" style="margin-top: 10%;padding-left: 20%; padding-right: 20%;">
+            <div class="form-group row">
+                <label for="itemname" class="col-3 col-form-label" style="font-weight: 400;">Item Name:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="itemname" name="itemname"><br>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="itemname" class="col-3 col-form-label" style="font-weight: 400;">Item Price:</label>
+                <div class="col-9">
+                  <input type="number" class="form-control" id="itemprice" name="itemprice"><br>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="itemname" class="col-3 col-form-label" style="font-weight: 400;">Item Category:</label>
+                <div class="col-9">
+                  <input type="text" class="form-control" id="itemcategory" name="itemcategory"><br>
+                </div>
+            </div>
+    
+            <button type="submit" class="btn btn-lg btn-light">ADD</button>
+    
+        </form>
+    </div>
 
-        <label for="itemname">Item Name:</label><br>
-        <input type="text" id="itemname" name="itemname" required><br>
-
-        <label for="itemprice">Item Price:</label><br>
-        <input type="number" id="itemprice" name="itemprice" required><br>
-
-        <label for="fname">Item Category:</label><br>
-        <input type="text" id="itemcategory" name="itemcategory" required><br>
-
-        <button type="submit">ADD</button>
-
-    </form>
+    
 
 
 
