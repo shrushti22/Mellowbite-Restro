@@ -186,12 +186,19 @@ app.get("/menu", function (req, res) {
                 console.log(err);
                 res.redirect("/menu");
             }
+            Category.find({}, function (err, category) {
+                var categories = [];
+                category.forEach(function (i) {
+                    categories.push(i.name);
+                })
+                res.render("menu", {
+                    menu: menu,
+                    category: categories,
+                    cart: req.user.cart,
+                });
+            })
 
-            res.render("menu", {
-                menu: menu,
-                category: categories,
-                cart: req.user.cart,
-            });
+
         });
     } else {
         res.redirect("/security");
@@ -212,7 +219,6 @@ app.get("/addmenu", function (req, res) {
 app.get("/checkout", function (req, res) {
     if (req.isAuthenticated()) {
         message = "none";
-        console.log(message);
         res.render("checkout", {
             name: req.user.name,
             address: req.user.address,
@@ -223,22 +229,6 @@ app.get("/checkout", function (req, res) {
     } else {
         res.redirect("/security");
     }
-})
-
-app.get("/confirmed", function (req, res) {
-    if (req.isAuthenticated()) {
-        if (conf_info) {
-            res.render("confirmed", {
-                display: conf_info
-            })
-            conf_info = "";
-        } else {
-            res.redirect("/")
-        };
-    } else {
-        res.redirect("/security");
-    }
-
 })
 
 app.get("/logout", function (req, res) {
@@ -307,9 +297,9 @@ app.post("/", function (req, res) {
 
 app.post("/addmenu", function (req, res) {
     if (req.isAuthenticated() && req.user.username == "rutvij.vamja@gmail.com" || req.user.username == "shrushtivasaniya@gmail.com") {
-        var itemname = req.body.itemname;
+        var itemname = _.capitalize(req.body.itemname);
         var itemprice = req.body.itemprice;
-        var itemcategory = req.body.itemcategory;
+        var itemcategory = _.capitalize(req.body.itemcategory);
 
         Category.findOne({
             name: itemcategory
@@ -352,9 +342,7 @@ app.post("/addmenu", function (req, res) {
 })
 
 app.post("/profile", function (req, res) {
-    var name = req.body.name;
-
-    req.user.name = _.capitalize(name);
+    var name = _.capitalize(req.body.name);
 
     req.user.save(function () {
         res.redirect("/profile");
@@ -401,10 +389,9 @@ app.post("/menu", function (req, res) {
 })
 
 app.post("/checkout", function (req, res) {
-    console.log(req.body);
 
     if (req.body.name) {
-        req.user.name = req.body.name;
+        req.user.name = _.capitalize(req.body.name);
     }
     if (!req.user.address.length) {
         req.user.address.push(req.body.address);
@@ -429,7 +416,6 @@ app.post("/checkout", function (req, res) {
             console.log(err);
             conf_info = "false";
         }
-        console.log("herer");
         console.log(conf_info);
         res.render("checkout", {
             cart: req.user.cart,
@@ -447,7 +433,7 @@ app.post("/checkout", function (req, res) {
 app.post("/reservation", function (req, res) {
 
     if (req.body.name) {
-        req.user.name = req.body.name;
+        req.user.name = _.capitalize(req.body.name);
     }
 
     var date = req.body.date;
@@ -457,7 +443,7 @@ app.post("/reservation", function (req, res) {
         name: req.user.name,
         phoneNo: req.body.number,
         date: date + "T" + req.body.time + "+05:30",
-        people: people
+        people: people,
     })
 
     conf_info = "true";
