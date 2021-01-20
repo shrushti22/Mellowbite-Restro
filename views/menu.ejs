@@ -59,7 +59,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-lg-8">
-                            <div id="accordion">
+                            <div id="accordion" style="overflow: auto; height: 600px;">
                                 <% var i = 0 %>
                                 <% category.forEach(function(category){ %>
                                     <% i++ %> 
@@ -98,36 +98,33 @@
                                               
                 
                         <div class="col-lg-4">
-                            <div>
-                                <div id="cartTitle" style="margin-top: 2rem;">
-                                    <h1 style="font-weight: 600;">CART</h1>
-                                </div>
-    
-                                <div class="jumbotron container" id="emptycart" style="text-align: center;background-color: #f1f1f1;">
-                                    <p>
-                                        <i style="color: rgb(180, 175, 175);" class="fas fa-shopping-cart fa-4x"></i>
-                                    </p>
-                                    <p style="font-weight: 300;font-size: 1rem;opacity: 60%;">Your cart is Empty.</p>
-                                </div> 
-    
-                                <div class="row cartitems" id="cartitems">
-                                </div>
-    
-                                <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
-                                </div>
-    
-                                <div id="placeOrder" style="padding: 1rem 0.1rem;">
-                                    <form action="/checkout" method="GET">
-                                        <button type="submit" id="disabledbutton" class="btn btn-success" style="width: 100%;" name="button" disabled>
-                                            <h4>Checkout</h4>
-                                        </button>
-                                        <button type="submit" id="checkoutbutton" class="btn btn-success" style="width: 100%;" name="button">
-                                            <h4>Checkout</h4>
-                                        </button>
-                                    </form>
-                                </div>
+                            <div id="cartTitle" style="margin-top: 2rem;">
+                                <h1 style="font-weight: 600;">CART</h1>
                             </div>
-                            
+
+                            <div class="jumbotron container" id="emptycart" style="text-align: center;background-color: #f1f1f1;">
+                                <p>
+                                    <i style="color: rgb(180, 175, 175);" class="fas fa-shopping-cart fa-4x"></i>
+                                </p>
+                                <p style="font-weight: 300;font-size: 1rem;opacity: 60%;">Your cart is Empty.</p>
+                            </div> 
+
+                            <div class="row cartitems" id="cartitems">
+                            </div>
+
+                            <div id="cartTotal" class="row" style="font-size: 1.5rem;font-weight: 500; padding-left: 1rem;">
+                            </div>
+
+                            <div id="placeOrder" style="padding: 1rem 0.1rem;">
+                                <form action="/checkout" method="GET">
+                                    <button type="submit" id="disabledbutton" class="btn btn-success" style="width: 100%;" name="button" disabled>
+                                        <h4>Checkout</h4>
+                                    </button>
+                                    <button type="submit" id="checkoutbutton" class="btn btn-success" style="width: 100%;" name="button">
+                                        <h4>Checkout</h4>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
@@ -167,6 +164,7 @@
             cart = JSON.parse(cart);
         </script>
         <script type="text/javascript" src="/javascripts/menu.js"></script>
+
 
 
 

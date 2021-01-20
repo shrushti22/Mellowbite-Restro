@@ -175,7 +175,25 @@ body{
     box-shadow: 1px 1px 10px 8px rgba(0, 0, 0, 0.30), 3px 3px 10px 8px rgba(0, 0, 0, 0.19);
 }
 
+/* -----------------review carousal------------------ */
+.review{
+    margin-top: 10%;
+}
 
+.box{
+    border: solid 3px;
+    border-radius: 5px;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+    border-color: blanchedalmond;
+    background-color: #f8f1f1;
+}
+
+/* ------------------------------review form ------------------------------*/
+.review-form{
+    margin-top: 5%;
+    padding: 3rem 0;
+}
 
 /* -------------------------------footer------------------------------------ */
 
@@ -417,6 +435,8 @@ body{
     background-color: #f1f1f1;
 }
 
+
+
 /* ----------------------------------------------------------media query---------------------------------------------------------------------------- */
 @media only screen and (max-width: 1200px) {
     .navbar{
@@ -482,11 +502,6 @@ body{
     .service{
         margin-top: 30%;
     }
-    /* .cover{
-        text-align: center;
-        height: 21rem;
-        margin-top: 0;
-    } */
     .profile{
 
         height: 10rem;

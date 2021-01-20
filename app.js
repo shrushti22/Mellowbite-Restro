@@ -85,13 +85,13 @@ const Order = new mongoose.model("Order", orderSchema);
 
 
 
-// const item1 = new Menu({
-//     itemName: "",
-//     itemPrice: 40,
-//     itemCategory: "Chinese"
-// })
+const item1 = new Menu({
+    itemName: "pauva bateka",
+    itemPrice: 40,
+    itemCategory: "Starters"
+})
 
-// item1.save();
+item1.save();
 
 
 
