@@ -1,487 +1,520 @@
-<%- include('partial/header'); %>
+<%- include('partial/header') %>
 
-    <body>
-        <section id="navbar">
-            <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark scrolled">
-                <div class="container">
-                    <a class="navbar-brand scrolled" href="/"><strong>Mellowbite</strong></a>
-                    <button class="navbar-toggler scrolled" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <i class="fa fa-bars fa-1x"></i>
-            </button>
-                </div>
+<body>
+    <section id="navbar">
+        <nav id="nav" class="navbar navbar-expand-lg navbar-dark bg-dark scrolled">
+            <div class="container">
+                <a class="navbar-brand scrolled" href="/"><strong>Mellowbite</strong></a>
+                <button class="navbar-toggler scrolled" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fa fa-bars fa-1x"></i>
+                </button>
+            </div>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item ">
-                            <a class="nav-link scrolled" href="/">Home</a
-                >
-              </li>
-              <li class="nav-item">
-                <a class="nav-link scrolled" href="/menu">Menu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link scrolled" href="/reservation">Dine in</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="btn btn-light scrolled" role="button" id="profile" href="/profile"><i class="fas fa-user"></i> &nbsp Profile</a
-                >
-              </li>
-            </ul>
-          </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item ">
+                        <a class="nav-link scrolled" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scrolled" href="/menu">Menu</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link scrolled" href="/reservation">Dine in</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-light scrolled" role="button" id="profile" href="/profile"><i
+                                class="fas fa-user"></i> &nbsp Profile</a>
+                    </li>
+                </ul>
+            </div>
         </nav>
-      </section>
-  <section id="#profile">
-    <div class="container" style="margin: auto">
-      <div class="row cover">
-        <div class="col-12">
-          <div style="position: relative; display: flex;">
-            <div style="position: absolute;">
-              <img class="profile" src="/images/images2.jpg" alt="profile image not found"/>
-            </div>
-            <div class="upload">
-              <a role="button" data-toggle="modal" data-target="#uploadimage">
-                <span class="fa-stack fa-2x camera">
-                  <i class="fas fa-circle fa-stack-2x"></i>
-                  <i class="fas fa-camera fa-stack-1x"></i>
-                </span>
-              </a>
-            </div>
-            
-            <div class="modal fade" id="uploadimage" tabindex="-1" role="dialog" aria-labelledby="uploadimagelabel" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="uploadimagelabel">Upload Image</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <form action="/profileimg" method="POST" enctype="multipart/form-data"></form>
-                    <div class="modal-body">
-                      <div>
-                          <label for="image">Upload Image</label>
-                          <input type="file" id="image" name="image" value="" required>
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="submit" class="btn btn-primary">Upload Image</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="profileUser">
-            <p style="font-size: 1.5rem; margin-bottom: 0rem">
-              Hello <%=name%>
-              <a class="edit" data-toggle="modal" data-target="#editname"><i class="fas fa-edit fa-1x"></i></a>
-            </p>
-            <p style="font-size: 1rem; font-weight: 400"><%= username %></p>
-          </div>
-          <div class="modal fade" id="editname" tabindex="-1" role="dialog" aria-labelledby="editnamelabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="editnamelabel">Change Name</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <form action="/profileimg" method="POST" enctype="multipart/form-data"></form>
-                  <div class="modal-body">
-                    <div>
-                      <div class="form-group">
-                        <label for="name" class="col-form-label">Name : </label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          name="name"
-                          id="newname"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <a
-                      role="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
-                      >Close</a
-                    >
-                    <button
-                      role="button"
-                      type="button"
-                      name="button"
-                      class="btn btn-light"
-                      id="edit"
-                      onclick="details_change(event)"
-                    >
-                      Save changes
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="logout">
-            <a
-              class="btn btn-light btn-sm"
-              style="padding: 0.3rem 1rem;"
-              role="button"
-              id="logout"
-              href="/logout"
-              >Logout</a
-            >
-          </div>   
-        </div>
-      </div>
-    </div>
+    </section>
+    <section id="#profile">
+        <div class="container" style="margin: auto">
+            <div class="row cover">
+                <div class="col-12">
+                    <div style="position: relative; display: flex;">
+                        <div style="position: absolute;">
+                            <%if(image !='{}' ){%>
+                            <img class="profile" src="data:image/<%=image.contentType%>;base64,
+                <%=image.data.toString('base64')%>">
+                            <%}else{%>
+                            <img class="profile" src="/images/images2.jpg" alt="profile image not found" />
+                            <% } %>
+                        </div>
+                        <div class="upload">
+                            <a role="button" data-toggle="modal" data-target="#uploadimage">
+                                <span class="fa-stack fa-2x camera">
+                                    <i class="fas fa-circle fa-stack-2x"></i>
+                                    <i class="fas fa-camera fa-stack-1x"></i>
+                                </span>
+                            </a>
+                        </div>
 
-  </section>
-
-  <section id="address">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div
-            style="
-              display: inline-block;
-              width: fit-content;
-              text-align: center;
-            "
-          >
-            <p class="title-sans-lettering">Address</p>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="padding: 1rem">
-          <div
-          class="jumbotron container"
-          style="text-align: center; background-color: #f1f1f1"
-        >
-          <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
-            Address not added yet.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-
-  <section id="reservation">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div
-            style="
-              display: inline-block;
-              width: fit-content;
-              text-align: center;
-            "
-          >
-            <p class="title-sans-lettering">Reservations</p>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="padding: 1rem">
-        <% if(reservations.length == 0){ %>
-        <div
-          class="jumbotron container"
-          style="text-align: center; background-color: #f1f1f1"
-        >
-          <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
-            No Reservation Yet.
-          </p>
-        </div>
-        <% }else{ %> 
-        <% var currentDate = new Date() %> 
-        <% reservations.forEach(function(reserve){ %>
-            <% var datestr = {weekday: "long",day: "numeric",month: "long"} %>
-            <% var date = reserve.date.toLocaleDateString("en-US", datestr) %> 
-            <% function formatDate(date) { %> 
-            <% var hours = date.getHours() %> 
-            <% var minutes = date.getMinutes() %> 
-            <% var ampm = hours >= 12 ? 'pm' : 'am' %> 
-            <% hours = hours % 12 %> 
-            <% hours = hours ? hours : 12 // the hour '0' should be '12' %> 
-            <% minutes = minutes < 10 ? '0'+minutes : minutes %> 
-            <% var strTime = hours + ':' + minutes + ' ' + ampm %> 
-            <% return strTime %> 
-            <% } %> 
-            <% var time = formatDate(reserve.date) %>
-
-        <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
-        <% if(reserve.date > currentDate){ %> 
-            <div class="card" style="border: solid 3px green;background-color: #f1f1f1;">
-        <% }else{ %> 
-            <div class="card" style="background-color: #f1f1f1;">
-        <% } %>
-            <div class="card-body">
-              <h5
-                class="card-title"
-                style="
-                  font-size: 1.5rem;
-                  font-weight: 600;
-                  margin-bottom: 1.5rem;
-                "
-              >
-                <%= reserve.name.toUpperCase() %>
-              </h5>
-              <p
-                class="card-text"
-                style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                "
-              >
-                DATE
-              </p>
-              <p
-                class="card-text"
-                style="font-weight: 400; color: black; margin-bottom: 0.5rem"
-              >
-                <%= date %>
-              </p>
-              <p
-                class="card-text"
-                style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                "
-              >
-                TIME
-              </p>
-              <p class="card-text" style="font-weight: 400; color: black">
-                <%= time %>
-              </p>
-              <p
-                class="card-text"
-                style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                "
-              >
-                NUMBER OF PEOPLE
-              </p>
-              <p class="card-text" style="font-weight: 400; color: black">
-                <%= reserve.people %>
-              </p>
-              <p
-                class="card-text"
-                style="
-                  font-weight: 400;
-                  opacity: 70%;
-                  margin: 0;
-                  line-height: 0.5rem;
-                "
-              >
-                PHONE NUMBER
-              </p>
-              <p class="card-text" style="font-weight: 400; color: black">
-                <%= reserve.phoneNo %>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <%})%> 
-    <% } %>
-      </div>
-    </div>
-  </section>
-
-  <section id="orders">
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div
-            style="
-              display: inline-block;
-              width: fit-content;
-              text-align: center;
-            "
-          >
-            <p class="title-sans-lettering">Orders</p>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="padding: 1rem">
-        <% if(orders.length == 0){ %>
-        <div
-          class="jumbotron container"
-          style="text-align: center; background-color: #f1f1f1"
-        >
-          <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
-            No Order Yet.
-          </p>
-        </div>
-        <% }else{ %>
-          <% orders.forEach(function(order){ %>
-            <% var orderDate = order.date %> 
-            <% var datestr = {weekday: "long",day: "numeric",month: "long"} %>
-            <% var date = orderDate.toLocaleDateString("en-US", datestr) %>
-            <% function formatDate(date) { %> 
-                <% var hours = date.getHours() %> 
-                <% var minutes = date.getMinutes() %> 
-                <% var ampm = hours >= 12 ? 'pm' : 'am' %> 
-                <% hours = hours % 12 %> 
-                <% hours = hours ? hours : 12 // the hour '0' should be '12' %> 
-                <% minutes = minutes < 10 ? '0'+minutes : minutes %> 
-                <% var strTime = hours + ':' + minutes + ' ' + ampm %> 
-                <% return strTime %> 
-            <% } %>
-
-            <% var time = formatDate(order.date) %>
-
-            
-            <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
-                <div class="card" style="background-color: #f1f1f1">
-                    <div class="card-body">
-                        <h5
-                        class="card-title"
-                        style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem;">
-                            <%= username.toUpperCase() %>
-                        </h5>
-                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                            ORDER ID
-                        </p>
-                        <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
-                            <%= order._id %>
-                        </p>
-                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                            DATE
-                        </p>
-                        <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
-                            <%= date %>
-                        </p>
-                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                            TIME
-                        </p>
-                        <p class="card-text" style="font-weight: 400; color: black">
-                            <%= time %>
-                        </p>
-                        <p class="card-text"style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                            ITEMS 
-                        </p>
-                        <p class="card-text" style="font-weight: 400; color: black">
-                           <%= order.orderItems.length %> items
-                        </p>
-                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                            TOTAL
-                        </p>
-                        <p class="card-text" style="font-weight: 400; color: black">
-                            ₹ <%= order.orderTotal %> 
-                        </p>
-                        <p class="card-text" style="font-weight: 400;margin: 0;line-height: 0.5rem;">
-                            <% var id = order._id %> 
-                            <button type="button" class="btn btn-light" data-toggle="modal" data-target='#<%=id%>'>
-                                View Details
-                            </button>
-                            <div class="modal fade" id="<%=id%>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                  <div class="modal-content">
+                        <div class="modal fade" id="uploadimage" tabindex="-1" role="dialog"
+                            aria-labelledby="uploadimagelabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
                                     <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLongTitle" style="font-weight: 800;">Order Detail</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
+                                        <h5 class="modal-title" id="uploadimagelabel">Upload Image</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                            ORDER ID
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
-                                            <%= order._id %>
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                            DATE
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
-                                            <%= date %>
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                            TIME
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400; color: black">
-                                            <%= time %>
-                                        </p>
-                                        <p class="card-text"style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                            ITEMS 
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400; color: black">
-                                            <div class="row">
-                                                <div class="col-4"><p style="font-weight: 600; color: black">Item Name</p></div>
-                                                <div class="col-4"><p style="font-weight: 600; color: black">Quantity</p></div>
-                                                <div class="col-4"><p style="font-weight: 600; color: black">Price</p></div>
-                                                <%order.orderItems.forEach(function(item){%>
-                                                    <div class="col-4"><p style="font-weight: 400; color: black"><%=item.itemName%></p></div>
-                                                    <div class="col-4"><p style="font-weight: 400; color: black"><%=item.itemQuantity%></p></div>
-                                                    <div class="col-4"><p style="font-weight: 400; color: black"><%=item.itemTotal%></p></div>
-                                                <%})%>
+                                    <form id="profileimg" action="/profileimg" method="POST"
+                                        enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                            <div>
+                                                <label for="image">Upload Image</label>
+                                                <input type="file" id="image" name="image" value="" required>
                                             </div>
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                            TOTAL
-                                        </p>
-                                        <p class="card-text" style="font-weight: 400; color: black">
-                                            ₹ <%= order.orderTotal %> 
-                                        </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Upload Image</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profileUser">
+                        <p style="font-size: 1.5rem; margin-bottom: 0rem">
+                            Hello
+                            <%if(name){%>
+                            <%=name%>
+                            <%}else{%>
+                            New User!
+                            <%}%>
+                            <a class="edit" data-toggle="modal" data-target="#editname"><i
+                                    class="fas fa-edit fa-1x"></i></a>
+                        </p>
+                        <p style="font-size: 1rem; font-weight: 400">
+                            <%= username %>
+                        </p>
+                    </div>
+                    <div class="modal fade" id="editname" tabindex="-1" role="dialog" aria-labelledby="editnamelabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="editnamelabel">Change Name</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="editprofile" action="/profile" method="POST">
+                                    <div class="modal-body">
+                                        <div>
+                                            <div class="form-group">
+                                                <label for="name" class="col-form-label">Name : </label>
+                                                <input type="text" class="form-control" name="name" id="newname" />
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                        <button role="button" type="button" name="button" class="btn btn-light"
+                                            id="edit" onclick="details_change(event)">
+                                            Save changes
+                                        </button>
                                     </div>
-                                  </div>
-                                </div>
-                              </div>
-                        </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logout">
+                        <a class="btn btn-light btn-sm" style="padding: 0.3rem 1rem;" role="button" id="logout"
+                            href="/logout">Logout</a>
                     </div>
                 </div>
             </div>
-          <%})%>
         </div>
-        <% } %>
-      </div>
-    </div>
-  </section>
 
-  <% var currentYear = new Date().getFullYear() %>
+    </section>
 
-  <section id="footer">
-    <div class="foot">
-      <p style="margin: 0">
-        <i class="fab fa-facebook-f fa-2x" style="margin: 4rem 2rem 1rem 2rem">
-        </i>
-        <i class="fab fa-twitter fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
-        &nbsp;
-        <i
-          class="fab fa-instagram fa-2x"
-          style="margin: 4rem 2rem 1rem 2rem"
-        ></i>
-      </p>
-      <p style="margin: 0">255, &nbsp; 2nd floor, Safal Square, Vesu, Surat.</p>
-      <p style="margin: 0">98672 03657</p>
-      <p style="margin-bottom: 2rem">mellowbite.restro@gmail.com</p>
-      <p class="copy">Copyright © <%= currentYear %> Mellowbite</p>
-    </div>
-  </section>
+    <section id="address">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div style="display: inline-block;width: fit-content;text-align: center;">
+                        <p class="title-sans-lettering">Address<a class="edit" data-toggle="modal"
+                                data-target="#addaddress"><i class="fas fa-edit fa-1x"></i></a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="addaddress" tabindex="-1" role="dialog" aria-labelledby="addaddresslabel"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addaddresslabel">Add Address</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form id="newaddress" action="/profileaddress" method="POST">
+                            <div class="modal-body">
+                                <div>
+                                    <div class="form-group">
+                                        <label for="address" class="col-form-label">Address : </label>
+                                        <input type="text" class="form-control" name="address" id="newaddress" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a role="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                                <button role="button" type="button" name="button" class="btn btn-light" id="edit"
+                                    onclick="add_address(event)">
+                                    Add
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding: 1rem">
+                <% if(addresses.length==0){ %>
+                <div class="jumbotron container" style="text-align: center; background-color: #f1f1f1">
+                    <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
+                        No Addresses.
+                    </p>
+                </div>
+                <% }else{ %>
+
+                <%addresses.forEach(function(address){%>
+                <div class="address">
+                    <div class="address-line">
+                        <p style="margin-bottom:0;padding: 0.2rem;"><%=address%></p>
+                    </div>
+
+                    <div class="address-button">
+                        <p style="margin-bottom:0;"><button class="btn btn-sm btn-light" style="padding:0.2rem 0.5rem;"
+                                name="delete" value="<%=address%>" onclick="delete_address(event,this)">delete</button>
+                        </p>
+                    </div>
+                </div>
+                <%})%>
+                <%}%>
+                
+            </div>
+        </div>
+    </section>
+
+    <section id="reservation">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div style="
+              display: inline-block;
+              width: fit-content;
+              text-align: center;
+            ">
+                        <p class="title-sans-lettering">Reservations</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 1rem">
+                <% if(reservations.length==0){ %>
+                <div class="jumbotron container" style="text-align: center; background-color: #f1f1f1">
+                    <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
+                        No Reservation Yet.
+                    </p>
+                </div>
+                <% }else{ %>
+                <% var currentDate=new Date() %>
+                <% reservations.forEach(function(reserve){ %>
+                <% var datestr={weekday: "long" ,day: "numeric" ,month: "long" } %>
+                <% var date=reserve.date.toLocaleDateString("en-US", datestr) %>
+                <% function formatDate(date) { %>
+                <% var hours=date.getHours() %>
+                <% var minutes=date.getMinutes() %>
+                <% var ampm=hours>= 12 ? 'pm' : 'am' %>
+                <% hours=hours % 12 %>
+                <% hours=hours ? hours : 12 // the hour '0' shouldbe '12' %>
+                <% minutes=minutes < 10 ? '0' +minutes : minutes %>
+                <% var strTime=hours + ':' + minutes + ' ' +ampm %>
+                <% return strTime %>
+                <% } %>
+                <% var time=formatDate(reserve.date)%>
+
+                <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
+                    <% if(reserve.date>currentDate){ %>
+                    <div class="card" style="border: solid 3px green;background-color: #f1f1f1;">
+                        <% }else{ %>
+                        <div class="card" style="background-color: #f1f1f1;">
+                            <% } %>
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem">
+                                    <%= reserve.name.toUpperCase()%>
+                                </h5>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    DATE
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                    <%= date %>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem">
+                                    TIME
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%= time%>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    NUMBER OF PEOPLE
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%= reserve.people%>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    PHONE NUMBER
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%=reserve.phoneNo%>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <%})%>
+                    <% } %>
+                </div>
+            </div>
+    </section>
+
+    <section id="orders">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div style="display: inline-block;width: fit-content;text-align: center">
+                        <p class="title-sans-lettering">Orders</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding: 1rem">
+                <% if(orders.length==0){ %>
+                <div class="jumbotron container" style="text-align: center; background-color: #f1f1f1">
+                    <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
+                        No Order Yet.
+                    </p>
+                </div>
+                <% }else{ %>
+                <% orders.forEach(function(order){ %>
+                <% var orderDate=order.date %>
+                <% var datestr={weekday: "long" ,day: "numeric" ,month: "long" } %>
+                <% var date=orderDate.toLocaleDateString("en-US", datestr) %>
+                <% function formatDate(date) { %>
+                <% var hours=date.getHours() %>
+                <% var minutes=date.getMinutes() %>
+                <% var ampm=hours>= 12 ? 'pm' : 'am' %>
+                <% hours=hours % 12 %>
+                <% hours=hours ? hours : 12 // the hour '0' shouldbe '12' %>
+                <% minutes=minutes < 10 ? '0' +minutes : minutes %>
+                <% var strTime=hours + ':' + minutes + ' ' + ampm %>
+                <% return strTime %>
+                <% } %>
+
+                <% var time=formatDate(order.date)%>
 
 
-  <!-- JQuery -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
+                    <div class="card" style="background-color: #f1f1f1">
+                        <div class="card-body">
+                            <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem;">
+                                <%= order.name.toUpperCase() %>
+                            </h5>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                ORDER ID
+                            </p>
+                            <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                <%= order._id %>
+                            </p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                DATE
+                            </p>
+                            <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                <%= date %>
+                            </p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                TIME
+                            </p>
+                            <p class="card-text" style="font-weight: 400; color: black">
+                                <%= time %>
+                            </p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                ITEMS
+                            </p>
+                            <p class="card-text" style="font-weight: 400; color: black">
+                                <%= order.orderItems.length%> items
+                            </p>
+                            <p class="card-text" style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                TOTAL
+                            </p>
+                            <p class="card-text" style="font-weight: 400; color: black">
+                                ₹
+                                <%= order.orderTotal%>
+                            </p>
+                            <p class="card-text" style="font-weight: 400;margin: 0;line-height: 0.5rem;">
+                                <% var id=order._id %>
+                                <button type="button" class="btn btn-light" data-toggle="modal" data-target='#<%=id%>'>
+                                    View
+                                    Details
+                                </button>
+                                <div class="modal fade" id="<%=id%>" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle"
+                                                    style="font-weight: 800;">
+                                                    Order Detail
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    ORDER ID
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                                    <%= order._id%>
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    DATE
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                                    <%= date%>
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    TIME
+                                                </p>
+                                                <p class="card-text" style="font-weight: 400; color: black">
+                                                    <%= time %>
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    ITEMS
+                                                </p>
+                                                <p class="card-text" style="font-weight: 400; color: black">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 600; color: black">
+                                                                Item Name
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 600; color: black">
+                                                                Quantity
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 600; color: black">
+                                                                Price
+                                                            </p>
+                                                        </div>
+                                                        <%order.orderItems.forEach(function(item){%>
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 400; color: black">
+                                                                <%=item.itemName%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 400; color: black">
+                                                                <%=item.itemQuantity%>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <p style="font-weight: 400; color: black">
+                                                                <%=item.itemTotal%>
+                                                            </p>
+                                                        </div>
+                                                        <%})%>
+                                                    </div>
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    TOTAL
+                                                </p>
+                                                <p class="card-text" style="font-weight: 400; color: black">
+                                                    ₹
+                                                    <%= order.orderTotal %>
+                                                </p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <%})%>
+            </div>
+            <% } %>
+        </div>
+        </div>
+    </section>
 
-  <!-- bootstrap script -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <% var currentYear=new Date().getFullYear() %>
+
+    <section id="footer">
+        <div class="foot">
+            <p style="margin: 0">
+                <i class="fab fa-facebook-f fa-2x" style="margin: 4rem 2rem 1rem 2rem">
+                </i>
+                <i class="fab fa-twitter fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i> &nbsp;
+                <i class="fab fa-instagram fa-2x" style="margin: 4rem 2rem 1rem 2rem"></i>
+            </p>
+            <p style="margin: 0">255, &nbsp; 2nd floor, Safal Square, Vesu, Surat.</p>
+            <p style="margin: 0">98672 03657</p>
+            <p style="margin-bottom: 2rem">mellowbite.restro@gmail.com</p>
+            <p class="copy">Copyright ©
+                <%= currentYear %> Mellowbite
+            </p>
+        </div>
+    </section>
 
 
-  <script type="text/javascript" src="javascripts/profile.js"></script>
-  <%- include('partial/footer'); %>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+
+    <!-- JQuery Ajax -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <!-- <script src="https://kit.fontawesome.com/eb9e477f45.js" crossorigin="anonymous"></script> -->
+
+    <!-- ajaxsubmit form script -->
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+
+    <script type="text/javascript" src="javascripts/profile.js"></script>
+    <%- include('partial/footer') %>
 </body>

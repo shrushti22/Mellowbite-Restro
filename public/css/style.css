@@ -380,6 +380,27 @@ body{
     opacity: 100%;
 }
 
+.address{
+    border:solid 2px rgba(0, 0, 0, 0.13);
+    border-radius: 6px;
+    height: fit-content;
+    width: 100%;
+}
+
+.address-line{
+    width: 80%; 
+    float:left;
+    padding:0.6rem; 
+    margin:auto;
+}
+
+.address-button{
+    width: 20%; 
+    float:right;
+    padding:0.6rem ;
+    margin:auto;
+    text-align: right;
+}
 
 
 
@@ -534,5 +555,11 @@ body{
     }
     .upload{
         font-size: 2.5rem;
+    }
+    .address-line{
+        width:70%;
+    }
+    .address-button{
+        width:30%;
     }
 }
