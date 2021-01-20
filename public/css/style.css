@@ -454,6 +454,9 @@ body{
     padding-right: 0 !important;
     padding:1rem;
     background-color: #f1f1f1;
+}
+
+.preview{
     width: 60%;
 }
 
@@ -496,7 +499,7 @@ body{
     .logout{
         left: 85%;
     }
-    .cartitems{
+    .preview{
         width: 90%;
     }
     
@@ -566,7 +569,8 @@ body{
     .address-button{
         width:30%;
     }
-    .cartitems{
+    .preview{
         width: 100%;
     }
+
 }

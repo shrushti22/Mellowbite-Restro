@@ -311,6 +311,7 @@
                 <% var orderDate=order.date %>
                 <% var datestr={weekday: "long" ,day: "numeric" ,month: "long" } %>
                 <% var date=orderDate.toLocaleDateString("en-US", datestr) %>
+                <% var address = order.address%>
                 <% function formatDate(date) { %>
                 <% var hours=date.getHours() %>
                 <% var minutes=date.getMinutes() %>
@@ -405,6 +406,13 @@
                                                 </p>
                                                 <p class="card-text" style="font-weight: 400; color: black">
                                                     <%= time %>
+                                                </p>
+                                                <p class="card-text"
+                                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                                    ADDRESS
+                                                </p>
+                                                <p class="card-text" style="font-weight: 400; color: black">
+                                                    <%= address %>
                                                 </p>
                                                 <p class="card-text"
                                                     style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">

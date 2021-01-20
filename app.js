@@ -79,6 +79,13 @@ const categoriesSchema = new mongoose.Schema({
     name: String,
 })
 
+const reviewSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    phoneNumber: Number,
+    review: String,
+})
+
 const userSchema = new mongoose.Schema({
     name: String,
     username: String,
@@ -104,7 +111,7 @@ const Cart = new mongoose.model("Cart", cartSchema);
 const Reserve = new mongoose.model("Reserve", reservationSchema);
 const Order = new mongoose.model("Order", orderSchema);
 const Category = new mongoose.model("category", categoriesSchema)
-
+const Review = new mongoose.model("review", reviewSchema)
 
 //Creating Strategy for Authentication
 passport.use(User.createStrategy());
@@ -293,6 +300,19 @@ app.post("/", function (req, res) {
     if (button == "BeeHome") {
         res.redirect("/menu");
     }
+
+    if (button == "Review") {
+        const review = new Review({
+            name: _.capitalize(req.body.name),
+            email: req.body.email,
+            phoneNumber: req.body.phone,
+            review: req.body.review,
+        })
+
+        review.save(function () {
+            res.redirect("/");
+        })
+    }
 })
 
 app.post("/addmenu", function (req, res) {
@@ -425,9 +445,6 @@ app.post("/checkout", function (req, res) {
             address: req.user.address,
         });
     });
-
-
-
 })
 
 app.post("/reservation", function (req, res) {
