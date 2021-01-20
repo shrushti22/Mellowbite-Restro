@@ -552,10 +552,10 @@ body{
         margin-top: 6%;
     }
     .add-btn{
-        left: 75%;
+        right: 0%;
     }
     .addc-btn{
-        left: 87%;
+        right: 0%;
     }
     .camera{
         margin: 2rem 0 1rem 0;

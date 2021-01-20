@@ -59,8 +59,6 @@ function add_address(event) {
 function delete_address(event, data) {
     event.preventDefault();
 
-    console.log(data);
-
     var address = data.value;
 
     var data = {

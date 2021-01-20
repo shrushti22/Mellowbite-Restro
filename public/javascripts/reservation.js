@@ -2,7 +2,7 @@ var p = $("p.slogan").last();
 var offset = p.offset();
 var topvalue = offset.top;
 
-$(window).scroll(function() {
+$(window).scroll(function () {
     $("nav, a.navbar-brand, a.nav-link, button.navbar-toggler, li.nav-item").toggleClass('scrolled', $(this).scrollTop() > topvalue);
 })
 
@@ -32,10 +32,6 @@ function validate() {
     d = d.split('-');
     t = t.split(':');
     var givendate = new Date(Number(d[0]), Number(d[1]) - 1, Number(d[2]), Number(t[0]), Number(t[1]), 00);
-    console.log(d);
-    console.log(t);
-    console.log(givendate);
-    console.log(currentdate);
     if (currentdate > givendate) {
         $("#date")[0].style.display = "block";
         $("#dineInDate").addClass("is-invalid");
