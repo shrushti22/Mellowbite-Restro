@@ -178,6 +178,7 @@ app.get("/reservation", function (req, res) {
 
 })
 
+var categories = ["fastfood"];
 app.get("/menu", function (req, res) {
     if (req.isAuthenticated()) {
         Menu.find({}, function (err, menu) {
@@ -310,23 +311,39 @@ app.post("/addmenu", function (req, res) {
         var itemprice = req.body.itemprice;
         var itemcategory = req.body.itemcategory;
 
-        var category = new Category({
-            name: itemcategory,
+        Category.findOne({
+            name: itemcategory
+        }, function (err, found) {
+            if (!found) {
+                var category = new Category({
+                    name: itemcategory,
+                })
+                category.save(function () {
+
+                    const item = new Menu({
+                        itemName: itemname,
+                        itemPrice: itemprice,
+                        itemCategory: itemcategory,
+                    })
+
+                    item.save(function () {
+                        res.redirect("/addmenu");
+                    })
+                })
+            } else {
+                const item = new Menu({
+                    itemName: itemname,
+                    itemPrice: itemprice,
+                    itemCategory: itemcategory,
+                })
+
+                item.save(function () {
+                    res.redirect("/addmenu");
+                })
+            }
+
         })
 
-        console.log(category);
-        category.save(function () {
-
-            const item = new Menu({
-                itemName: itemname,
-                itemPrice: itemprice,
-                itemCategory: itemcategory,
-            })
-
-            item.save(function () {
-                res.redirect("/addmenu");
-            })
-        })
 
     } else {
         res.redirect("/main");

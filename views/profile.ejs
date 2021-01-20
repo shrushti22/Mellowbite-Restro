@@ -185,15 +185,22 @@
                     </p>
                 </div>
                 <% }else{ %>
-                <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
-                    <%addresses.forEach(function(address){%>
-                    <div>
-                        <%=address%><button name="delete" value="<%=address%>"
-                            onclick="delete_address(event,this)">delete</button>
+
+                <%addresses.forEach(function(address){%>
+                <div class="address">
+                    <div class="address-line">
+                        <p style="margin-bottom:0;padding: 0.2rem;"><%=address%></p>
                     </div>
-                    <%})%>
-                    <%}%>
+
+                    <div class="address-button">
+                        <p style="margin-bottom:0;"><button class="btn btn-sm btn-light" style="padding:0.2rem 0.5rem;"
+                                name="delete" value="<%=address%>" onclick="delete_address(event,this)">delete</button>
+                        </p>
+                    </div>
                 </div>
+                <%})%>
+                <%}%>
+                
             </div>
         </div>
     </section>
@@ -213,75 +220,74 @@
             </div>
             <div class="row" style="padding: 1rem">
                 <% if(reservations.length==0){ %>
-                    <div class="jumbotron container" style="text-align: center; background-color: #f1f1f1">
-                        <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
-                            No Reservation Yet.
-                        </p>
-                    </div>
-                    <% }else{ %>
-                    <% var currentDate=new Date() %>
-                    <% reservations.forEach(function(reserve){ %>
-                    <% var datestr={weekday: "long" ,day: "numeric" ,month: "long" } %>
-                    <% var date=reserve.date.toLocaleDateString("en-US", datestr) %>
-                    <% function formatDate(date) { %>
-                    <% var hours=date.getHours() %>
-                    <% var minutes=date.getMinutes() %>
-                    <% var ampm=hours>= 12 ? 'pm' : 'am' %>
-                    <% hours=hours % 12 %>
-                    <% hours=hours ? hours : 12 // the hour '0' shouldbe '12' %>
-                    <% minutes=minutes < 10 ? '0' +minutes : minutes %>
-                    <% var strTime=hours + ':' + minutes + ' ' +ampm %>
-                    <% return strTime %>
-                    <% } %>
-                    <% var time=formatDate(reserve.date)%>
+                <div class="jumbotron container" style="text-align: center; background-color: #f1f1f1">
+                    <p style="font-weight: 300; font-size: 3rem; opacity: 60%">
+                        No Reservation Yet.
+                    </p>
+                </div>
+                <% }else{ %>
+                <% var currentDate=new Date() %>
+                <% reservations.forEach(function(reserve){ %>
+                <% var datestr={weekday: "long" ,day: "numeric" ,month: "long" } %>
+                <% var date=reserve.date.toLocaleDateString("en-US", datestr) %>
+                <% function formatDate(date) { %>
+                <% var hours=date.getHours() %>
+                <% var minutes=date.getMinutes() %>
+                <% var ampm=hours>= 12 ? 'pm' : 'am' %>
+                <% hours=hours % 12 %>
+                <% hours=hours ? hours : 12 // the hour '0' shouldbe '12' %>
+                <% minutes=minutes < 10 ? '0' +minutes : minutes %>
+                <% var strTime=hours + ':' + minutes + ' ' +ampm %>
+                <% return strTime %>
+                <% } %>
+                <% var time=formatDate(reserve.date)%>
 
-                    <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
-                        <% if(reserve.date>currentDate){ %>
-                        <div class="card" style="border: solid 3px green;background-color: #f1f1f1;">
-                            <% }else{ %>
-                            <div class="card" style="background-color: #f1f1f1;">
-                                <% } %>
-                                <div class="card-body">
-                                    <h5 class="card-title"
-                                        style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem">
-                                        <%= reserve.name.toUpperCase()%>
-                                    </h5>
-                                    <p class="card-text"
-                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                        DATE
-                                    </p>
-                                    <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
-                                        <%= date %>
-                                    </p>
-                                    <p class="card-text"
-                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem">
-                                        TIME
-                                    </p>
-                                    <p class="card-text" style="font-weight: 400; color: black">
-                                        <%= time%>
-                                    </p>
-                                    <p class="card-text"
-                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                        NUMBER OF PEOPLE
-                                    </p>
-                                    <p class="card-text" style="font-weight: 400; color: black">
-                                        <%= reserve.people%>
-                                    </p>
-                                    <p class="card-text"
-                                        style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
-                                        PHONE NUMBER
-                                    </p>
-                                    <p class="card-text" style="font-weight: 400; color: black">
-                                        <%=reserve.phoneNo%>
-                                    </p>
-                                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12" style="padding: 1rem">
+                    <% if(reserve.date>currentDate){ %>
+                    <div class="card" style="border: solid 3px green;background-color: #f1f1f1;">
+                        <% }else{ %>
+                        <div class="card" style="background-color: #f1f1f1;">
+                            <% } %>
+                            <div class="card-body">
+                                <h5 class="card-title" style="font-size: 1.5rem;font-weight: 600;margin-bottom: 1.5rem">
+                                    <%= reserve.name.toUpperCase()%>
+                                </h5>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    DATE
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black; margin-bottom: 0.5rem">
+                                    <%= date %>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem">
+                                    TIME
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%= time%>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    NUMBER OF PEOPLE
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%= reserve.people%>
+                                </p>
+                                <p class="card-text"
+                                    style="font-weight: 400;opacity: 70%;margin: 0;line-height: 0.5rem;">
+                                    PHONE NUMBER
+                                </p>
+                                <p class="card-text" style="font-weight: 400; color: black">
+                                    <%=reserve.phoneNo%>
+                                </p>
                             </div>
                         </div>
-
-                        <%})%>
-                        <% } %>
                     </div>
+
+                    <%})%>
+                    <% } %>
                 </div>
+            </div>
     </section>
 
     <section id="orders">
