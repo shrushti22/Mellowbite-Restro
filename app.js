@@ -225,14 +225,18 @@ app.get("/addmenu", function (req, res) {
 
 app.get("/checkout", function (req, res) {
     if (req.isAuthenticated()) {
-        message = "none";
-        res.render("checkout", {
-            name: req.user.name,
-            address: req.user.address,
-            cart: req.user.cart,
-            total: req.user.cartTotal,
-            message: "none"
-        })
+        if (req.user.cart.length) {
+            message = "none";
+            res.render("checkout", {
+                name: req.user.name,
+                address: req.user.address,
+                cart: req.user.cart,
+                total: req.user.cartTotal,
+                message: "none"
+            })
+        } else {
+            res.redirect("/menu");
+        }
     } else {
         res.redirect("/security");
     }
@@ -436,7 +440,7 @@ app.post("/checkout", function (req, res) {
             console.log(err);
             conf_info = "false";
         }
-        console.log(conf_info);
+
         res.render("checkout", {
             cart: req.user.cart,
             total: req.user.cartTotal,

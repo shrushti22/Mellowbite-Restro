@@ -11,13 +11,12 @@ function validate() {
     var flag = 0;
     var name = document.reserve.name.value;
     var alphabet = /^[a-zA-Z-,]+(\s{0,1}[a-zA-Z-, ])*$/;
-    // /^[A-Za-z]+$/;
-    if (!name.match(alphabet)) {
+
+    if (name && !name.match(alphabet)) {
         $("#name")[0].style.display = "block";
         $("#inputName").addClass("is-invalid");
         flag = 1;
     }
-
 
     var phone = document.reserve.number.value;
     if (phone.length != 10) {

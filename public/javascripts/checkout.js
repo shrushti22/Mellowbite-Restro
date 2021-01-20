@@ -4,6 +4,9 @@ if (message == "true" || message == "false") {
         foo: 'bar'
     };
     history.replaceState(stateObj, '', 'profile');
+    window.onclick = function (event) {
+        location.reload();
+    }
 } else {
     $("myModal").modal("hide");
 }
