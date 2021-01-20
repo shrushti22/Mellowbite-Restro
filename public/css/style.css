@@ -454,6 +454,7 @@ body{
     padding-right: 0 !important;
     padding:1rem;
     background-color: #f1f1f1;
+    width: 60%;
 }
 
 
@@ -494,6 +495,9 @@ body{
     }
     .logout{
         left: 85%;
+    }
+    .cartitems{
+        width: 90%;
     }
     
 }
@@ -561,5 +565,8 @@ body{
     }
     .address-button{
         width:30%;
+    }
+    .cartitems{
+        width: 100%;
     }
 }

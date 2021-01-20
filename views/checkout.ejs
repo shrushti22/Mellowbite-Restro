@@ -51,46 +51,57 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-6" style="font-weight: 600">
-                <%if(name){%>
-                <p>Name <%=name%>
-                </p>
-                <%}else{%>
-                <p>Name</p>
-                <input id="newname" name="name" placeholder="name" required />
-                <%}%>
+            <div class="row" style="width: fit-content;margin: auto;font-size: 1rem;font-weight: 400">
+                <div class="col-12" >
+                    <div class="row">
+                        <div class="col-3">
+                            <p style="font-weight: 600;font-size: 1.5rem;text-align: right;">Name :</p>
+                        </div>
+                        <div class="col-9" style="text-align: left;">
+                            <%if(name){%>
+                                <p style="font-size: 1.5rem;"> <%=name%></p>
+                            <%}else{%>
+                                <input id="newname" class="form-control" name="name" placeholder="name" required />
+                            <%}%>
+                        </div>
+                    </div>
                 </div>
-
-                <div class="col-6" style="font-weight: 600">
-                    <label for="address">Address:</label>
-
-                    
-                        <%if(address.length){%>
-                <select name="address" id="list">
-                    <%address.forEach(function(address){%>
-                    <option value="<%=address%>">
-                        <%=address%>
-                    </option>
-                    <%})%>
-                    <%}else{%>
-                    <input id="newaddress" name="address" placeholder="address" required />
-                    <%}%>
-                </select>
+    
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-3">
+                            <p style="font-weight: 600;font-size: 1.5rem;text-align: right;">Address:</p>
+                        </div>
+                        <div class="col-9">
+                            <%if(address.length){%>
+                                <select name="address" id="list" class="form-control">
+                                    <%address.forEach(function(address){%>
+                                        <option value="<%=address%>">
+                                            <%=address%>
+                                        </option>
+                                    <%})%>
+                                </select>
+                                <%}else{%>
+                                    <input id="newaddress" class="form-control" name="address" placeholder="address" required />
+                                <%}%>
+                        </div>
+                    </div>
+                </div>    
             </div>
 
-            <div class="row cartitems" style="width: fit-content;margin: auto;font-size: 1rem;font-weight: 400">
-                <div class="col-4" style="font-weight: 600">
+            
+            <div class="row cartitems" style="margin:auto;font-weight: 400;text-align: left;">
+                <div class="col-4" style="font-weight: 600;text-align: left;">
                     <p>Item Name</p>
                 </div>
                 <div class="col-4" style="font-weight: 600">
                     <p>Quantity</p>
                 </div>
-                <div class="col-4" style="font-weight: 600">
+                <div class="col-4" style="font-weight: 600;">
                     <p>Price</p>
                 </div>
                 <%cart.forEach(function(item){%>
-                    <div class="col-4">
+                    <div class="col-4" >
                         <p>
                             <%=item.itemName%>
                         </p>
