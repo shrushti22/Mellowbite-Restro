@@ -368,6 +368,7 @@ app.post("/addmenu", function (req, res) {
 
 app.post("/profile", function (req, res) {
     var name = _.capitalize(req.body.name);
+    req.user.name = name;
 
     req.user.save(function () {
         res.redirect("/profile");
