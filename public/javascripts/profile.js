@@ -84,16 +84,28 @@ function delete_address(event, data) {
 
 }
 
-$('#profileimg').submit(function () {
+var uploadField = document.getElementById("file");
 
-    $(this).ajaxSubmit({
-        success: function (result) {
-            window.location.reload();
-        },
-        error: function (request, status, error) {
-            alert("error");
-        }
-    });
-    //Very important line, it disable the page refresh.
-    return false;
-});
+uploadField.onchange = function () {
+    console.log(this.files[0].size);
+    if (this.files[0].size > 100000) {
+        $(".validation")[0].style.display = "block";
+        this.value = "";
+    } else {
+        $(".validation")[0].style.display = "none";
+    }
+};
+
+// $('#profileimg').submit(function () {
+
+//     $(this).ajaxSubmit({
+//         success: function (result) {
+//             window.location.reload();
+//         },
+//         error: function (request, status, error) {
+//             alert("error");
+//         }
+//     });
+//     //Very important line, it disable the page refresh.
+//     return false;
+// });
