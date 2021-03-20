@@ -73,7 +73,7 @@ ele.on('click', function (event) {
         url: '/profileaddress',
         data: data,
         success: function (result) {
-            //window.location.reload();
+            window.location.reload();
         },
         error: function (request, status, error) {
             alert("error");
