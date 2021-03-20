@@ -21,9 +21,6 @@ function details_change(event) {
             alert("error");
         }
     });
-    $(document).ajaxSuccess(function () {
-        alert("AJAX request successfully completed");
-    });
 
 }
 
@@ -56,10 +53,14 @@ function add_address(event) {
 
 }
 
-function delete_address(event, data) {
+var ele = $(".delete");
+
+ele.on('click', function (event) {
+    var x = this.parentNode.parentNode.parentNode;
+    x.style.display = "none";
     event.preventDefault();
 
-    var address = data.value;
+    var address = this.value;
 
     var data = {
         name: "delete",
@@ -72,7 +73,7 @@ function delete_address(event, data) {
         url: '/profileaddress',
         data: data,
         success: function (result) {
-            window.location.reload();
+            //window.location.reload();
         },
         error: function (request, status, error) {
             alert("error");
@@ -82,7 +83,8 @@ function delete_address(event, data) {
         alert("AJAX request successfully completed");
     });
 
-}
+
+});
 
 var uploadField = document.getElementById("file");
 
@@ -94,18 +96,18 @@ uploadField.onchange = function () {
     } else {
         $(".validation")[0].style.display = "none";
     }
-};
+}
 
-// $('#profileimg').submit(function () {
+$('#profileimg').submit(function () {
 
-//     $(this).ajaxSubmit({
-//         success: function (result) {
-//             window.location.reload();
-//         },
-//         error: function (request, status, error) {
-//             alert("error");
-//         }
-//     });
-//     //Very important line, it disable the page refresh.
-//     return false;
-// });
+    $(this).ajaxSubmit({
+        success: function (result) {
+            window.location.reload();
+        },
+        error: function (request, status, error) {
+            alert("error");
+        }
+    });
+    //Very important line, it disable the page refresh.
+    return false;
+});

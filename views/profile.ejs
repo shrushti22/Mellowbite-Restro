@@ -196,8 +196,8 @@
                     </div>
 
                     <div class="address-button">
-                        <p style="margin-bottom:0;"><button class="btn btn-sm btn-light" style="padding:0.2rem 0.5rem;"
-                                name="delete" value="<%=address%>" onclick="delete_address(event,this)">delete</button>
+                        <p style="margin-bottom:0;"><button class="btn btn-sm btn-light delete"
+                                style="padding:0.2rem 0.5rem;" name="delete" value="<%=address%>">delete</button>
                         </p>
                     </div>
                 </div>
@@ -507,15 +507,9 @@
 
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
-    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" defer></script>
 
-    <!-- ajaxsubmit form script -->
-    <!-- <script src="http://malsup.github.com/jquery.form.js"></script> -->
-
-    <script type="text/javascript" src="javascripts/profile.js"></script>
+    <script type="text/javascript" src="javascripts/profile.js" defer></script>
     <%- include('partial/footer') %>
 </body>

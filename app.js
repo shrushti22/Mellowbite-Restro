@@ -122,6 +122,13 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //variables
+var debug = require('debug')('http'),
+    http = require('http'),
+    name = 'My App';
+
+debug('booting %o', name);
+
+
 var display = "";
 var conf_info = "";
 var storage = multer.diskStorage({
@@ -370,9 +377,8 @@ app.post("/profile", function (req, res) {
     var name = _.capitalize(req.body.name);
     req.user.name = name;
 
-    req.user.save(function () {
-        res.redirect("/profile");
-    });
+    req.user.save();
+    res.send(true);
 })
 
 app.post("/profileaddress", function (req, res) {
@@ -381,17 +387,15 @@ app.post("/profileaddress", function (req, res) {
 
     if (button == "add") {
         req.user.address.push(address);
-        req.user.save(function () {
-            res.redirect("/profile");
-        });
+        req.user.save();
+        res.send(true);
     } else {
         const index = req.user.address.indexOf(address);
         if (index > -1) {
             req.user.address.splice(index, 1);
         }
-        req.user.save(function () {
-            res.redirect("/profile");
-        });
+        req.user.save();
+        res.send(true);
     }
 })
 
