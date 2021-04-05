@@ -110,3 +110,7 @@ This is almost a complete Restaurant Website that is easy to use and most import
 ## Contributions
 
 You can contribute to this project by solving existing issues , adding a new feature or raising any issues/bugs if there.
+
+### Contributors
+- <a href="https://github.com/shrushti22">Shrushti Vasaniya</a>
+- <a href="https://github.com/RutvijDv">Rutvij Vamja</a>
