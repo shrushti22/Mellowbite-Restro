@@ -1,4 +1,4 @@
-![logo not found](https://i.imgur.com/iEwhNAb.png)
+![logo not found](/logo.png)
 
 <a href="https://github.com/RutvijDv/MellowBite-Restro/issues">
   <img alt="Issues" src="https://img.shields.io/github/issues/RutvijDv/MellowBite-Restro" />
@@ -63,11 +63,48 @@ This is almost a complete Restaurant Website that is easy to use and most import
 ## Preview
 
 </br>
-<p align="center">
-<img src="" alt="Home Page" />
-<p align="center">Home Page Preview</p>
-</p>
+<p style="text-align: center">Home Page Preview</p>
+<div style="text-align: center;padding:auto;">
+        <div style="display:inline-block">
+          <img src="/readmeimages/home1.jpg" alt="Home Page" height="400"/>
+        </div>
+        <div style="display:inline-block">
+          <img src="/readmeimages/home2.jpg" alt="Home Page" height="400"/>
+        </div>
+        
+<div>
 </br>
+<p style="text-align: center">Login-signup Preview</p>
+<div style="text-align: center">
+        <img src="/readmeimages/login-signup.png" alt="login-signup Page"/>
+<div>
+</br>
+<p style="text-align: center">Menu Preview</p>
+<div style="text-align: center">
+        <img src="/readmeimages/menu.png" alt="menu Page"/>
+<div>
+</br>
+<p style="text-align: center">Dine in booking Preview</p>
+<div style="text-align: center">
+        <img src="/readmeimages/dinein.png" alt="dinein Page"/>
+<div>
+</br>
+<p style="text-align: center">Profile Preview</p>
+<div style="text-align: center;padding:auto;">
+        <div style="display:inline-block">
+          <img src="/readmeimages/profile.png" alt="profile Page" height="400"/>
+        </div>
+        <div style="display:inline-block">
+          <img src="/readmeimages/profile3.PNG" alt="profile Page"  height="400"/>
+        </div>
+        
+<div>
+
+</br>
+</br>
+
+</br>
+
 
 ## Contributions
 
