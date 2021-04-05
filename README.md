@@ -1,4 +1,4 @@
-![logo not found](/logo.png)
+![logo not found](/readmeimages/logo.png)
 
 <a href="https://github.com/RutvijDv/MellowBite-Restro/issues">
   <img alt="Issues" src="https://img.shields.io/github/issues/RutvijDv/MellowBite-Restro" />
