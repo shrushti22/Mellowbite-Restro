@@ -66,10 +66,11 @@ This is almost a complete Restaurant Website that is easy to use and most import
 <p style="text-align: center">Home Page Preview</p>
 <div style="text-align: center;padding:auto;">
         <div style="display:inline-block">
-          <img src="/readmeimages/home1.jpg" alt="Home Page" height="400"/>
+          <img src="/readmeimages/home1.jpg" alt="Home Page" height="400" width="400"/>
         </div>
+        &nbsp
         <div style="display:inline-block">
-          <img src="/readmeimages/home2.jpg" alt="Home Page" height="400"/>
+          <img src="/readmeimages/home2.jpg" alt="Home Page" height="400" width="400"/>
         </div>
         
 <div>
@@ -86,7 +87,7 @@ This is almost a complete Restaurant Website that is easy to use and most import
 </br>
 <p style="text-align: center">Dine in booking Preview</p>
 <div style="text-align: center">
-        <img src="/readmeimages/dinein.png" alt="dinein Page"/>
+        <img src="/readmeimages/dinein.PNG" alt="dinein Page"/>
 <div>
 </br>
 <p style="text-align: center">Profile Preview</p>
@@ -95,7 +96,7 @@ This is almost a complete Restaurant Website that is easy to use and most import
           <img src="/readmeimages/profile.png" alt="profile Page" height="400"/>
         </div>
         <div style="display:inline-block">
-          <img src="/readmeimages/profile3.PNG" alt="profile Page"  height="400"/>
+          <img src="/readmeimages/profile3.png" alt="profile Page"  height="400"/>
         </div>
         
 <div>
